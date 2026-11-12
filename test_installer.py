@@ -11,6 +11,19 @@ from hardware import prepare_catalogue
 
 
 class InstallerTests(unittest.TestCase):
+    def test_account_can_resume_after_useradd_without_creating_a_second_user(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / 'etc').mkdir()
+            (root / 'etc/passwd').write_text('demo:x:1000:1000::/home/demo:/bin/bash\n')
+            def account_only(session, name, label, action):
+                if name == 'account':
+                    return action()
+            with patch('installer.TARGET', root), patch('installer.execute_step', side_effect=account_only), patch('installer.chroot') as chroot:
+                installer.configure('demo', 'demo', 'us', 'Etc/UTC', 'fr_FR.UTF-8', {}, '', {}, [], [])
+            self.assertFalse(any(call.args[0] == 'useradd' for call in chroot.call_args_list))
+            self.assertTrue(any(call.args[0] == 'usermod' for call in chroot.call_args_list))
+
     def test_live_pacman_configuration_is_idempotent(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / 'pacman.conf'
@@ -105,6 +118,8 @@ class InstallerTests(unittest.TestCase):
             self.assertFalse((home / '.config/fish/fish_variables').exists())
             self.assertFalse((home / '.config/tmux/ssh_hosts').exists())
             self.assertTrue((target / 'usr/local/bin/start-desktop').is_file())
+            # Une reprise au milieu du déploiement ne doit pas échouer sur les liens existants.
+            deploy(target, 'demo', selected, 'fr', installed)
 
 
 if __name__ == '__main__':

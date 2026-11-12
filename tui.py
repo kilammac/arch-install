@@ -30,6 +30,28 @@ class Ui:
     def __init__(self):
         self.gum = shutil.which('gum') if sys.stdin.isatty() and sys.stdout.isatty() else None
         self.log = None
+        self.step_total = 0
+        self.step_done = 0
+
+    def set_steps(self, total, done=0):
+        self.step_total, self.step_done = total, done
+
+    def progress(self, label):
+        if not self.step_total:
+            return
+        filled = min(30, self.step_done * 30 // self.step_total)
+        line = '█' * filled + '░' * (30 - filled) + f'  {self.step_done}/{self.step_total} · {label}'
+        if self.gum:
+            subprocess.run([self.gum, 'style', '--foreground', '#89b4fa', '--', line], check=True)
+        else:
+            print(line, flush=True)
+
+    def step(self, label, action):
+        self.progress(label)
+        result = action()
+        self.step_done += 1
+        self.progress(label + ' · terminé')
+        return result
 
     def call(self, *args):
         result = subprocess.run([self.gum, *args], text=True, stdout=subprocess.PIPE)

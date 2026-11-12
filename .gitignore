@@ -32,3 +32,6 @@
 /inventaire/
 /mes-choix*.json
 /options-differees.json
+**/state.json
+**/session.json
+**/.state-*

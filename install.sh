@@ -4,6 +4,7 @@ set -Eeuo pipefail
 SELF_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 MODE=install
 BRANCH=main
+FORWARD=()
 ensure_network() {
   local reply
   until curl -fsS --max-time 15 -o /dev/null https://archlinux.org; do
@@ -21,10 +22,13 @@ while (($#)); do
       cat <<'HELP'
 Arch · Hyprland · Quickshell — installation depuis le live officiel
 Usage : bash install.sh [--check | --preview | --dry-run] [--branch NOM]
+                       [--state-dir DOSSIER_USB] [--resume FICHIER_JSON]
   --check       vérifier les fichiers locaux sans installation
   --preview     essayer les menus sans installation ni modification de disque
   --dry-run     alias de --preview
   --branch NOM  branche téléchargée si le lanceur est utilisé seul (main par défaut)
+  --state-dir   sauvegarde supplémentaire avant formatage sur un support persistant
+  --resume      charger un état de reprise JSON ; aucune reprise du formatage
 HELP
       exit 0 ;;
     --check) MODE=check ;;
@@ -32,6 +36,10 @@ HELP
     --branch)
       [[ $# -ge 2 && $2 =~ ^[A-Za-z0-9._/-]+$ ]] || { echo 'Branche invalide.' >&2; exit 2; }
       BRANCH=$2
+      shift ;;
+    --state-dir|--resume)
+      [[ $# -ge 2 && -n $2 && $2 != --* ]] || { echo "Valeur manquante pour $1" >&2; exit 2; }
+      FORWARD+=("$1" "$(realpath -m -- "$2")")
       shift ;;
     *) echo "Option inconnue : $1" >&2; exit 2 ;;
   esac
@@ -58,12 +66,12 @@ if [[ -z $PROJECT ]]; then
   echo "Téléchargement de l’installateur complet dans $PROJECT…"
   curl -fL --retry 3 --connect-timeout 20 "https://codeload.github.com/kilammac/arch-install/tar.gz/refs/heads/$BRANCH" -o "$PROJECT/source.tar.gz"
   tar -xzf "$PROJECT/source.tar.gz" --strip-components=1 -C "$PROJECT"
-  exec bash "$PROJECT/install.sh"
+  exec bash "$PROJECT/install.sh" "${FORWARD[@]}"
 fi
 cd -- "$PROJECT"
 if [[ $MODE == check || $MODE == preview ]]; then
   command -v python >/dev/null || { echo 'Python 3 est requis pour ce contrôle local.' >&2; exit 1; }
-  exec python -B installer.py "--$MODE"
+  exec python -B installer.py "--$MODE" "${FORWARD[@]}"
 fi
 # Installation dans le live uniquement ; les garde-fous précédents sont déjà appliqués.
 needed=()
@@ -74,4 +82,4 @@ if ((${#needed[@]})); then
   echo 'Préparation de l’interface dans le live (connexion Internet requise)…'
   pacman -Sy --needed --noconfirm "${needed[@]}"
 fi
-exec python -B installer.py
+exec python -B installer.py "${FORWARD[@]}"

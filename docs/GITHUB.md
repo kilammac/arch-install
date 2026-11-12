@@ -42,7 +42,7 @@ détaillés dans VALIDATION.md.
 ```bash
 python -B audit_publication.py
 bash install.sh --check
-python -B -m unittest -v test_hardware test_installer
+python -B -m unittest -v test_hardware test_installer test_tui test_session_state test_snapshots
 git diff
 ```
 
@@ -61,3 +61,6 @@ Git globale du poste n’est pas modifiée.
 
 Sources : [GitHub — accès aux dépôts distants](https://docs.github.com/en/get-started/git-basics/about-remote-repositories),
 [GitHub CLI](https://cli.github.com/manual/gh_auth_login).
+
+Le [guide snapshots et reprise](SNAPSHOTS-REPRISE.md) explique aussi comment
+reprendre après relance du live, et sauvegarder les réponses sur une clé USB.

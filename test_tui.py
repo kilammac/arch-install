@@ -1,9 +1,23 @@
 import unittest
 from unittest.mock import patch
+import io
+from contextlib import redirect_stdout
 from tui import Ui, retryable
 
 
 class TuiTests(unittest.TestCase):
+    def test_progress_counts_only_successful_steps(self):
+        ui = Ui()
+        ui.gum = None
+        ui.set_steps(3, 1)
+        output = io.StringIO()
+        with redirect_stdout(output):
+            with self.assertRaises(RuntimeError):
+                ui.step('Échec', lambda: (_ for _ in ()).throw(RuntimeError()))
+            self.assertEqual(ui.step_done, 1)
+            ui.step('Réussi', lambda: None)
+        self.assertEqual(ui.step_done, 2)
+        self.assertIn('██████████░░░░░░░░░░░░░░░░░░░░', output.getvalue())
     def test_formatting_never_offers_retry(self):
         for name in ['mkfs.btrfs', 'mkfs.fat', 'wipefs', 'sgdisk', 'parted']:
             self.assertFalse(retryable([name, '/dev/vda']))

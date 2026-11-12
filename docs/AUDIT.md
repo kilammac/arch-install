@@ -38,7 +38,7 @@ logicielles et les fonctions de ton bureau.
 ```bash
 python -B audit_publication.py
 bash install.sh --check
-python -B -m unittest -v test_hardware test_installer
+python -B -m unittest -v test_hardware test_installer test_tui test_session_state test_snapshots
 ```
 
 Le scanner local est un contrôle par motifs, pas une preuve d’absence de tout
@@ -48,3 +48,7 @@ d’audit. Aucune authentification ou validité de jeton n’a été testée sur
 
 La protection GitHub peut aider, mais ne détecte pas toutes les valeurs ni toutes
 les données personnelles : [documentation GitHub](https://docs.github.com/en/code-security/reference/secret-security/secret-scanning-scope).
+
+Les nouveaux fichiers de reprise restent sous `/run` ou dans le sous-volume
+`@installstate` de la cible ; une copie externe n’est autorisée qu’hors du dépôt.
+Leur contenu n’inclut pas les mots de passe et n’est jamais envoyé à GitHub.

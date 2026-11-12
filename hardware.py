@@ -112,6 +112,9 @@ def prepare_catalogue(rows, report):
     result = []
     for row in rows:
         row = dict(row)
+        if row['kind'] == 'paquet' and row['name'] in {'snapper', 'snap-pac'}:
+            row.update(default=False, locked=True, group='00-snapshots',
+                       note='Configuré par le choix Snapshots du questionnaire.')
         if row['kind'] == 'paquet' and row['name'] in managed:
             row.update(default=False, locked=True, group='00-materiel-automatique',
                        note='Calculé sur la machine cible ; voir hardware.py et le rapport matériel.')

@@ -6,6 +6,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 
 
+def ensure_link(link, destination):
+    if link.is_symlink() and str(link.readlink()) == destination:
+        return
+    if link.exists() or link.is_symlink():
+        raise RuntimeError(f'Un autre fichier occupe le lien attendu : {link}')
+    link.symlink_to(destination)
+
+
 def config_packages(selected):
     ids = {r['id'] for r in selected}
     result = set()
@@ -53,7 +61,7 @@ def deploy(target, user, selected, keymap, installed, login_shell='bash'):
         if 'cfg:' + part in ids:
             link = home / '.config' / part
             link.parent.mkdir(parents=True, exist_ok=True)
-            link.symlink_to('../.my-hyprland/' + part)
+            ensure_link(link, '../.my-hyprland/' + part)
 
     if 'cfg:hypr' in ids:
         hypr = '.my-hyprland/hypr/'
@@ -122,7 +130,7 @@ RestartSec=2
                     'RAPL=""\nfor zone in /sys/class/powercap/*-rapl:0; do\n    [ -r "$zone/energy_uj" ] && { RAPL=$zone; break; }\ndone'))
         wants = target / 'etc/systemd/system/multi-user.target.wants'
         wants.mkdir(parents=True, exist_ok=True)
-        (wants / 'qs-hwinfo.service').symlink_to('/etc/systemd/system/qs-hwinfo.service')
+        ensure_link(wants / 'qs-hwinfo.service', '/etc/systemd/system/qs-hwinfo.service')
     if 'cfg:kitty' in ids:
         path = home / '.config/kitty/kitty.conf'
         path.write_text(path.read_text().replace('MesloLGS NF', 'JetBrainsMono Nerd Font'))

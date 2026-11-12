@@ -13,7 +13,7 @@ bash install.sh
 
 Le lanceur récupère le dossier complet, prépare Gum puis ouvre le parcours guidé :
 identité et langue, familles logicielles, réglage fin des paquets, configurations,
-shell, chargeur, disque et résumé avant confirmation. Les opérations affichent
+shell, chargeur, choix des snapshots, disque et résumé avant confirmation. Les opérations affichent
 leur progression et conservent un journal dans `/run/arch-personnel/install.log`.
 Dans Gum : flèches pour naviguer, `x` pour cocher et Entrée pour valider.
 
@@ -61,9 +61,10 @@ compléments AUR avec le compte ordinaire.
 
 - [Publier et récupérer le dépôt](docs/GITHUB.md)
 - [Audit et limites](docs/AUDIT.md)
+- [Snapshots, progression et reprise après échec](docs/SNAPSHOTS-REPRISE.md)
 - [Vérification de l’installateur](docs/VALIDATION.md)
 
-19 tests automatisés passent. Une installation et un redémarrage BIOS/LTS ont
+31 tests automatisés passent. Une installation et un redémarrage BIOS/LTS ont
 réussi dans QEMU/KVM sur disque jetable. La session graphique complète et le
 parcours UEFI restent à valider ; voir les limites dans VALIDATION.md.
 
@@ -81,3 +82,15 @@ Le moteur Python de détection/déploiement est conservé avec ses validations.
 Les scénarios disque sont effacement automatique ou partitions déjà préparées ;
 la création automatique dans l’espace non partitionné (alongside) et Limine ne
 sont pas proposés. Il n’y a pas de reprise automatique du formatage après erreur.
+
+## Snapshots et persistance
+
+Choisir aucun snapshot, Snapper manuel ou Snapper automatique depuis le questionnaire.
+La barre bleue `█/░` affiche les étapes terminées ; elle retrouve son avancement
+lors d’une reprise. Les réponses et étapes sont sauvegardées sur la cible dans
+`/var/lib/arch-personnel-install/state.json`, sans mots de passe.
+
+Après une erreur, relancer le live et `bash install.sh` : choisir « Reprendre sans
+reformater ». Pour sauvegarder aussi les réponses avant la création de la cible,
+utiliser `--state-dir` sur une clé USB de données montée. Les détails, limites et
+commandes sont dans [le guide de reprise](docs/SNAPSHOTS-REPRISE.md).
