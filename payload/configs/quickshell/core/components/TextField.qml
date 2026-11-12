@@ -1,0 +1,127 @@
+import QtQuick
+import qs.core.config
+import qs.core.helpers
+
+StyledRect {
+    id: root
+
+    readonly property alias text: input.text
+
+    property string placeholder
+    property string icon
+    property bool gridNavigation: false
+    property bool removable: false
+    property int echo: TextInput.Normal
+    property int paddingV: Appearance.search.paddingV
+    property int paddingH: Appearance.search.paddingH
+    property int gap: Appearance.search.spacing
+    property int iconSize: Appearance.search.iconSize
+    property int placeholderSize: Appearance.font.size.normal
+
+    signal activated
+    signal edited(string text)
+    signal navigate(int delta)
+    signal navigateColumn(int delta)
+    signal accepted
+    signal removed(bool all)
+    signal cancelled
+    signal chord(var event)
+
+    function setText(value: string): void {
+        input.text = value;
+    }
+
+    function reset(): void {
+        root.setText("");
+    }
+
+    function focusInput(): void {
+        input.forceActiveFocus();
+    }
+
+    color: Colours.trough
+    radius: Appearance.rounding.full
+
+    implicitHeight: input.implicitHeight + root.paddingV * 2
+
+    MouseArea {
+        anchors.fill: parent
+
+        cursorShape: Qt.IBeamCursor
+
+        onPressed: root.focusInput()
+    }
+
+    Icon {
+        id: glyph
+
+        anchors.left: parent.left
+        anchors.leftMargin: root.paddingH
+        anchors.verticalCenter: parent.verticalCenter
+
+        text: root.icon
+        color: Colours.textMuted
+        font.pixelSize: root.iconSize
+    }
+
+    TextInput {
+        id: input
+
+        anchors.left: glyph.right
+        anchors.leftMargin: root.gap
+        anchors.right: parent.right
+        anchors.rightMargin: root.paddingH
+        anchors.verticalCenter: parent.verticalCenter
+
+        color: Colours.text
+        selectionColor: Colours.highlight
+        selectedTextColor: Colours.surface
+        selectByMouse: true
+        echoMode: root.echo
+
+        font.family: Appearance.font.family.sans
+        font.pixelSize: Appearance.font.size.normal
+        font.weight: Appearance.font.weightNormal
+
+        onTextChanged: root.edited(input.text)
+
+        onActiveFocusChanged: {
+            if (input.activeFocus)
+                root.activated();
+        }
+
+        Keys.onPressed: event => {
+            const rows = Nav.vertical(event, true);
+            const columns = Nav.horizontal(event, true);
+
+            if (event.key === Qt.Key_Escape) {
+                root.cancelled();
+                event.accepted = true;
+            } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
+                root.accepted();
+                event.accepted = true;
+            } else if (root.removable && event.key === Qt.Key_Delete && (event.modifiers & Qt.ShiftModifier)) {
+                root.removed((event.modifiers & Qt.ControlModifier) !== 0);
+                event.accepted = true;
+            } else if (rows !== 0) {
+                root.navigate(rows);
+                event.accepted = true;
+            } else if (root.gridNavigation && columns !== 0) {
+                root.navigateColumn(columns);
+                event.accepted = true;
+            } else if (event.modifiers & Qt.ControlModifier) {
+                root.chord(event);
+            }
+        }
+
+        StyledText {
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+
+            visible: input.text.length === 0
+            text: root.placeholder
+            color: Colours.textMuted
+            font.pixelSize: root.placeholderSize
+        }
+    }
+}

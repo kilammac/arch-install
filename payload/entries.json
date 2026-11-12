@@ -1,0 +1,84 @@
+{
+  "cfg:hypr": [
+    {
+      "source": "configs/hypr",
+      "destination": ".my-hyprland/hypr"
+    }
+  ],
+  "cfg:quickshell": [
+    {
+      "source": "configs/quickshell",
+      "destination": ".my-hyprland/quickshell"
+    }
+  ],
+  "cfg:nvim": [
+    {
+      "source": "configs/nvim",
+      "destination": ".my-hyprland/nvim"
+    }
+  ],
+  "cfg:kitty": [
+    {
+      "source": "configs/kitty",
+      "destination": ".config/kitty"
+    }
+  ],
+  "cfg:foot": [
+    {
+      "source": "configs/foot",
+      "destination": ".config/foot"
+    }
+  ],
+  "cfg:fish": [
+    {
+      "source": "configs/fish/config.fish",
+      "destination": ".config/fish/config.fish"
+    }
+  ],
+  "cfg:starship": [
+    {
+      "source": "configs/starship/starship.toml",
+      "destination": ".config/starship.toml"
+    }
+  ],
+  "cfg:tmux": [
+    {
+      "source": "configs/tmux/tmux.conf",
+      "destination": ".config/tmux/tmux.conf"
+    },
+    {
+      "source": "configs/tmux/scripts",
+      "destination": ".config/tmux/scripts"
+    }
+  ],
+  "cfg:gtk": [
+    {
+      "source": "configs/gtk-3.0/settings.ini",
+      "destination": ".config/gtk-3.0/settings.ini"
+    },
+    {
+      "source": "configs/gtk-4.0/settings.ini",
+      "destination": ".config/gtk-4.0/settings.ini"
+    }
+  ],
+  "cfg:qt": [
+    {
+      "source": "configs/qt5ct",
+      "destination": ".config/qt5ct"
+    },
+    {
+      "source": "configs/qt6ct",
+      "destination": ".config/qt6ct"
+    },
+    {
+      "source": "configs/Kvantum",
+      "destination": ".config/Kvantum"
+    }
+  ],
+  "cfg:mime": [
+    {
+      "source": "configs/mime/mimeapps.list",
+      "destination": ".config/mimeapps.list"
+    }
+  ]
+}

@@ -1,0 +1,3322 @@
+[
+  {
+    "id": "pkg:amd-ucode",
+    "kind": "paquet",
+    "name": "amd-ucode",
+    "group": "00-materiel-automatique",
+    "source": "ajout-propose",
+    "default": false,
+    "locked": true,
+    "note": "Recalculé par détection sur chaque machine cible."
+  },
+  {
+    "id": "pkg:asusctl",
+    "kind": "paquet",
+    "name": "asusctl",
+    "group": "00-materiel-automatique",
+    "source": "ajout-propose",
+    "default": false,
+    "locked": true,
+    "note": "Recalculé par détection sur chaque machine cible."
+  },
+  {
+    "id": "pkg:libva-mesa-driver",
+    "kind": "paquet",
+    "name": "libva-mesa-driver",
+    "group": "00-materiel-automatique",
+    "source": "ajout-propose",
+    "default": false,
+    "locked": true,
+    "note": "Recalculé par détection sur chaque machine cible."
+  },
+  {
+    "id": "pkg:mesa",
+    "kind": "paquet",
+    "name": "mesa",
+    "group": "00-materiel-automatique",
+    "source": "ajout-propose",
+    "default": false,
+    "locked": true,
+    "note": "Recalculé par détection sur chaque machine cible."
+  },
+  {
+    "id": "pkg:rog-control-center",
+    "kind": "paquet",
+    "name": "rog-control-center",
+    "group": "00-materiel-automatique",
+    "source": "ajout-propose",
+    "default": false,
+    "locked": true,
+    "note": "Recalculé par détection sur chaque machine cible."
+  },
+  {
+    "id": "pkg:vulkan-radeon",
+    "kind": "paquet",
+    "name": "vulkan-radeon",
+    "group": "00-materiel-automatique",
+    "source": "ajout-propose",
+    "default": false,
+    "locked": true,
+    "note": "Recalculé par détection sur chaque machine cible."
+  },
+  {
+    "id": "pkg:base",
+    "kind": "paquet",
+    "name": "base",
+    "group": "01-base",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:base-devel",
+    "kind": "paquet",
+    "name": "base-devel",
+    "group": "01-base",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:btrfs-progs",
+    "kind": "paquet",
+    "name": "btrfs-progs",
+    "group": "01-base",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:linux",
+    "kind": "paquet",
+    "name": "linux",
+    "group": "01-base",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:linux-firmware",
+    "kind": "paquet",
+    "name": "linux-firmware",
+    "group": "01-base",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:linux-headers",
+    "kind": "paquet",
+    "name": "linux-headers",
+    "group": "01-base",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:linux-lts",
+    "kind": "paquet",
+    "name": "linux-lts",
+    "group": "01-base",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:linux-lts-headers",
+    "kind": "paquet",
+    "name": "linux-lts-headers",
+    "group": "01-base",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:man-db",
+    "kind": "paquet",
+    "name": "man-db",
+    "group": "01-base",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:man-pages",
+    "kind": "paquet",
+    "name": "man-pages",
+    "group": "01-base",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:nano",
+    "kind": "paquet",
+    "name": "nano",
+    "group": "01-base",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:networkmanager",
+    "kind": "paquet",
+    "name": "networkmanager",
+    "group": "01-base",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:openssh",
+    "kind": "paquet",
+    "name": "openssh",
+    "group": "01-base",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:pacman-contrib",
+    "kind": "paquet",
+    "name": "pacman-contrib",
+    "group": "01-base",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:reflector",
+    "kind": "paquet",
+    "name": "reflector",
+    "group": "01-base",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:snapper",
+    "kind": "paquet",
+    "name": "snapper",
+    "group": "01-base",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:snapper-rollback",
+    "kind": "paquet",
+    "name": "snapper-rollback",
+    "group": "01-base",
+    "source": "hors-depots-configures",
+    "default": false,
+    "locked": true,
+    "note": "Réglage de l’ancien système exclu ; amorçage/dépôts configurés par le nouvel installateur."
+  },
+  {
+    "id": "pkg:sudo",
+    "kind": "paquet",
+    "name": "sudo",
+    "group": "01-base",
+    "source": "ajout-propose",
+    "default": true,
+    "locked": false,
+    "note": "Administration"
+  },
+  {
+    "id": "pkg:zram-generator",
+    "kind": "paquet",
+    "name": "zram-generator",
+    "group": "01-base",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:aquamarine",
+    "kind": "paquet",
+    "name": "aquamarine",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:brightnessctl",
+    "kind": "paquet",
+    "name": "brightnessctl",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:cliphist",
+    "kind": "paquet",
+    "name": "cliphist",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:ddcutil",
+    "kind": "paquet",
+    "name": "ddcutil",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:dsearch-bin",
+    "kind": "paquet",
+    "name": "dsearch-bin",
+    "group": "02-bureau-hyprland",
+    "source": "hors-depots-configures",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:fuzzel",
+    "kind": "paquet",
+    "name": "fuzzel",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:gnome-keyring",
+    "kind": "paquet",
+    "name": "gnome-keyring",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:hyprgraphics",
+    "kind": "paquet",
+    "name": "hyprgraphics",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:hypridle",
+    "kind": "paquet",
+    "name": "hypridle",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:hyprland",
+    "kind": "paquet",
+    "name": "hyprland",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:hyprland-protocols",
+    "kind": "paquet",
+    "name": "hyprland-protocols",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:hyprlock",
+    "kind": "paquet",
+    "name": "hyprlock",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:hyprpaper",
+    "kind": "paquet",
+    "name": "hyprpaper",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:hyprpicker",
+    "kind": "paquet",
+    "name": "hyprpicker",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:hyprpolkitagent",
+    "kind": "paquet",
+    "name": "hyprpolkitagent",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:hyprshot",
+    "kind": "paquet",
+    "name": "hyprshot",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:hyprtoolkit",
+    "kind": "paquet",
+    "name": "hyprtoolkit",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:mako",
+    "kind": "paquet",
+    "name": "mako",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:network-manager-applet",
+    "kind": "paquet",
+    "name": "network-manager-applet",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:noctalia",
+    "kind": "paquet",
+    "name": "noctalia",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:nwg-displays",
+    "kind": "paquet",
+    "name": "nwg-displays",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:nwg-look",
+    "kind": "paquet",
+    "name": "nwg-look",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:pavucontrol",
+    "kind": "paquet",
+    "name": "pavucontrol",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:pipewire",
+    "kind": "paquet",
+    "name": "pipewire",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:pipewire-alsa",
+    "kind": "paquet",
+    "name": "pipewire-alsa",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:pipewire-audio",
+    "kind": "paquet",
+    "name": "pipewire-audio",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:pipewire-jack",
+    "kind": "paquet",
+    "name": "pipewire-jack",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:pipewire-pulse",
+    "kind": "paquet",
+    "name": "pipewire-pulse",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:playerctl",
+    "kind": "paquet",
+    "name": "playerctl",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:polkit-gnome",
+    "kind": "paquet",
+    "name": "polkit-gnome",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:polkit-kde-agent",
+    "kind": "paquet",
+    "name": "polkit-kde-agent",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:qt5-wayland",
+    "kind": "paquet",
+    "name": "qt5-wayland",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:qt6-multimedia",
+    "kind": "paquet",
+    "name": "qt6-multimedia",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:qt6-wayland",
+    "kind": "paquet",
+    "name": "qt6-wayland",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:qt6-websockets",
+    "kind": "paquet",
+    "name": "qt6-websockets",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:quickshell",
+    "kind": "paquet",
+    "name": "quickshell",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:satty",
+    "kind": "paquet",
+    "name": "satty",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:slurp",
+    "kind": "paquet",
+    "name": "slurp",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:swaybg",
+    "kind": "paquet",
+    "name": "swaybg",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:wireplumber",
+    "kind": "paquet",
+    "name": "wireplumber",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:wl-clipboard",
+    "kind": "paquet",
+    "name": "wl-clipboard",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:wlsunset",
+    "kind": "paquet",
+    "name": "wlsunset",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:wofi",
+    "kind": "paquet",
+    "name": "wofi",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:xdg-desktop-portal-gtk",
+    "kind": "paquet",
+    "name": "xdg-desktop-portal-gtk",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:xdg-desktop-portal-hyprland",
+    "kind": "paquet",
+    "name": "xdg-desktop-portal-hyprland",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:xdg-user-dirs",
+    "kind": "paquet",
+    "name": "xdg-user-dirs",
+    "group": "02-bureau-hyprland",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:bat",
+    "kind": "paquet",
+    "name": "bat",
+    "group": "03-terminal-editeurs",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:btop",
+    "kind": "paquet",
+    "name": "btop",
+    "group": "03-terminal-editeurs",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:eza",
+    "kind": "paquet",
+    "name": "eza",
+    "group": "03-terminal-editeurs",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:fastfetch",
+    "kind": "paquet",
+    "name": "fastfetch",
+    "group": "03-terminal-editeurs",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:fd",
+    "kind": "paquet",
+    "name": "fd",
+    "group": "03-terminal-editeurs",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:fish",
+    "kind": "paquet",
+    "name": "fish",
+    "group": "03-terminal-editeurs",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:flea-arch-git",
+    "kind": "paquet",
+    "name": "flea-arch-git",
+    "group": "03-terminal-editeurs",
+    "source": "hors-depots-configures",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:foot",
+    "kind": "paquet",
+    "name": "foot",
+    "group": "03-terminal-editeurs",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:fzf",
+    "kind": "paquet",
+    "name": "fzf",
+    "group": "03-terminal-editeurs",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:ghostty",
+    "kind": "paquet",
+    "name": "ghostty",
+    "group": "03-terminal-editeurs",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:glances",
+    "kind": "paquet",
+    "name": "glances",
+    "group": "03-terminal-editeurs",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:heh",
+    "kind": "paquet",
+    "name": "heh",
+    "group": "03-terminal-editeurs",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:htop",
+    "kind": "paquet",
+    "name": "htop",
+    "group": "03-terminal-editeurs",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:kitty",
+    "kind": "paquet",
+    "name": "kitty",
+    "group": "03-terminal-editeurs",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:ncdu",
+    "kind": "paquet",
+    "name": "ncdu",
+    "group": "03-terminal-editeurs",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:neovim",
+    "kind": "paquet",
+    "name": "neovim",
+    "group": "03-terminal-editeurs",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:ripgrep",
+    "kind": "paquet",
+    "name": "ripgrep",
+    "group": "03-terminal-editeurs",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:starship",
+    "kind": "paquet",
+    "name": "starship",
+    "group": "03-terminal-editeurs",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:stow",
+    "kind": "paquet",
+    "name": "stow",
+    "group": "03-terminal-editeurs",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:tldr",
+    "kind": "paquet",
+    "name": "tldr",
+    "group": "03-terminal-editeurs",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:tmux",
+    "kind": "paquet",
+    "name": "tmux",
+    "group": "03-terminal-editeurs",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:trash-cli",
+    "kind": "paquet",
+    "name": "trash-cli",
+    "group": "03-terminal-editeurs",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:tree",
+    "kind": "paquet",
+    "name": "tree",
+    "group": "03-terminal-editeurs",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:vim",
+    "kind": "paquet",
+    "name": "vim",
+    "group": "03-terminal-editeurs",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:yazi",
+    "kind": "paquet",
+    "name": "yazi",
+    "group": "03-terminal-editeurs",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:antigravity",
+    "kind": "paquet",
+    "name": "antigravity",
+    "group": "04-developpement",
+    "source": "hors-depots-configures",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:bash-language-server",
+    "kind": "paquet",
+    "name": "bash-language-server",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:clang",
+    "kind": "paquet",
+    "name": "clang",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:git",
+    "kind": "paquet",
+    "name": "git",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:github-cli",
+    "kind": "paquet",
+    "name": "github-cli",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:go",
+    "kind": "paquet",
+    "name": "go",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:hexedit",
+    "kind": "paquet",
+    "name": "hexedit",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:imhex-bin",
+    "kind": "paquet",
+    "name": "imhex-bin",
+    "group": "04-developpement",
+    "source": "hors-depots-configures",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:jq",
+    "kind": "paquet",
+    "name": "jq",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:lua-language-server",
+    "kind": "paquet",
+    "name": "lua-language-server",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:lua51",
+    "kind": "paquet",
+    "name": "lua51",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:luarocks",
+    "kind": "paquet",
+    "name": "luarocks",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:marksman",
+    "kind": "paquet",
+    "name": "marksman",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:meld",
+    "kind": "paquet",
+    "name": "meld",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:meson",
+    "kind": "paquet",
+    "name": "meson",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:nodejs",
+    "kind": "paquet",
+    "name": "nodejs",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:npm",
+    "kind": "paquet",
+    "name": "npm",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:openai-codex",
+    "kind": "paquet",
+    "name": "openai-codex",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:pnpm",
+    "kind": "paquet",
+    "name": "pnpm",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:prettier",
+    "kind": "paquet",
+    "name": "prettier",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:pyright",
+    "kind": "paquet",
+    "name": "pyright",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:python-black",
+    "kind": "paquet",
+    "name": "python-black",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:python-isort",
+    "kind": "paquet",
+    "name": "python-isort",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:python-pip",
+    "kind": "paquet",
+    "name": "python-pip",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:rust",
+    "kind": "paquet",
+    "name": "rust",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:rust-analyzer",
+    "kind": "paquet",
+    "name": "rust-analyzer",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:shfmt",
+    "kind": "paquet",
+    "name": "shfmt",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:stylua",
+    "kind": "paquet",
+    "name": "stylua",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:tree-sitter-cli",
+    "kind": "paquet",
+    "name": "tree-sitter-cli",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:typescript-language-server",
+    "kind": "paquet",
+    "name": "typescript-language-server",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:vale",
+    "kind": "paquet",
+    "name": "vale",
+    "group": "04-developpement",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:vscodium-bin",
+    "kind": "paquet",
+    "name": "vscodium-bin",
+    "group": "04-developpement",
+    "source": "hors-depots-configures",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:vscodium-bin-marketplace",
+    "kind": "paquet",
+    "name": "vscodium-bin-marketplace",
+    "group": "04-developpement",
+    "source": "hors-depots-configures",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:android-udev",
+    "kind": "paquet",
+    "name": "android-udev",
+    "group": "05-android",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:jadx",
+    "kind": "paquet",
+    "name": "jadx",
+    "group": "05-android",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:jdk-openjdk",
+    "kind": "paquet",
+    "name": "jdk-openjdk",
+    "group": "05-android",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:jdk17-openjdk",
+    "kind": "paquet",
+    "name": "jdk17-openjdk",
+    "group": "05-android",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:scrcpy",
+    "kind": "paquet",
+    "name": "scrcpy",
+    "group": "05-android",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:dnsmasq",
+    "kind": "paquet",
+    "name": "dnsmasq",
+    "group": "06-conteneurs-vm",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:edk2-ovmf",
+    "kind": "paquet",
+    "name": "edk2-ovmf",
+    "group": "06-conteneurs-vm",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:libguestfs",
+    "kind": "paquet",
+    "name": "libguestfs",
+    "group": "06-conteneurs-vm",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:podman",
+    "kind": "paquet",
+    "name": "podman",
+    "group": "06-conteneurs-vm",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:podman-compose",
+    "kind": "paquet",
+    "name": "podman-compose",
+    "group": "06-conteneurs-vm",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:podman-docker",
+    "kind": "paquet",
+    "name": "podman-docker",
+    "group": "06-conteneurs-vm",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:qemu-base",
+    "kind": "paquet",
+    "name": "qemu-base",
+    "group": "06-conteneurs-vm",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:slirp4netns",
+    "kind": "paquet",
+    "name": "slirp4netns",
+    "group": "06-conteneurs-vm",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:spice",
+    "kind": "paquet",
+    "name": "spice",
+    "group": "06-conteneurs-vm",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:swtpm",
+    "kind": "paquet",
+    "name": "swtpm",
+    "group": "06-conteneurs-vm",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:vde2",
+    "kind": "paquet",
+    "name": "vde2",
+    "group": "06-conteneurs-vm",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:virt-manager",
+    "kind": "paquet",
+    "name": "virt-manager",
+    "group": "06-conteneurs-vm",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:virt-viewer",
+    "kind": "paquet",
+    "name": "virt-viewer",
+    "group": "06-conteneurs-vm",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:vm-curator-bin",
+    "kind": "paquet",
+    "name": "vm-curator-bin",
+    "group": "06-conteneurs-vm",
+    "source": "hors-depots-configures",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:chromium",
+    "kind": "paquet",
+    "name": "chromium",
+    "group": "07-navigateurs",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:firefox",
+    "kind": "paquet",
+    "name": "firefox",
+    "group": "07-navigateurs",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:firefox-i18n-fr",
+    "kind": "paquet",
+    "name": "firefox-i18n-fr",
+    "group": "07-navigateurs",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:qutebrowser",
+    "kind": "paquet",
+    "name": "qutebrowser",
+    "group": "07-navigateurs",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:vivaldi",
+    "kind": "paquet",
+    "name": "vivaldi",
+    "group": "07-navigateurs",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:vivaldi-ffmpeg-codecs",
+    "kind": "paquet",
+    "name": "vivaldi-ffmpeg-codecs",
+    "group": "07-navigateurs",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:4kvideodownloaderplus",
+    "kind": "paquet",
+    "name": "4kvideodownloaderplus",
+    "group": "08-media-creation",
+    "source": "hors-depots-configures",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:cava",
+    "kind": "paquet",
+    "name": "cava",
+    "group": "08-media-creation",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:deno",
+    "kind": "paquet",
+    "name": "deno",
+    "group": "08-media-creation",
+    "source": "ajout-propose",
+    "default": true,
+    "locked": false,
+    "note": "Runtime YouTube du lecteur cassette; déjà installé comme dépendance si présent"
+  },
+  {
+    "id": "pkg:droidcam-obs-plugin",
+    "kind": "paquet",
+    "name": "droidcam-obs-plugin",
+    "group": "08-media-creation",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:easyeffects",
+    "kind": "paquet",
+    "name": "easyeffects",
+    "group": "08-media-creation",
+    "source": "ajout-propose",
+    "default": false,
+    "locked": false,
+    "note": "Appelé par modules/startup.lua; absent du système inspecté"
+  },
+  {
+    "id": "pkg:ffmpegthumbnailer",
+    "kind": "paquet",
+    "name": "ffmpegthumbnailer",
+    "group": "08-media-creation",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:gimp",
+    "kind": "paquet",
+    "name": "gimp",
+    "group": "08-media-creation",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:gimp-help-fr",
+    "kind": "paquet",
+    "name": "gimp-help-fr",
+    "group": "08-media-creation",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:gpu-screen-recorder",
+    "kind": "paquet",
+    "name": "gpu-screen-recorder",
+    "group": "08-media-creation",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:gst-libav",
+    "kind": "paquet",
+    "name": "gst-libav",
+    "group": "08-media-creation",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:imagemagick",
+    "kind": "paquet",
+    "name": "imagemagick",
+    "group": "08-media-creation",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:loupe",
+    "kind": "paquet",
+    "name": "loupe",
+    "group": "08-media-creation",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:mpv",
+    "kind": "paquet",
+    "name": "mpv",
+    "group": "08-media-creation",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:obs-advanced-masks",
+    "kind": "paquet",
+    "name": "obs-advanced-masks",
+    "group": "08-media-creation",
+    "source": "hors-depots-configures",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:obs-source-clone",
+    "kind": "paquet",
+    "name": "obs-source-clone",
+    "group": "08-media-creation",
+    "source": "hors-depots-configures",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:obs-studio",
+    "kind": "paquet",
+    "name": "obs-studio",
+    "group": "08-media-creation",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:pinta",
+    "kind": "paquet",
+    "name": "pinta",
+    "group": "08-media-creation",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:resvg",
+    "kind": "paquet",
+    "name": "resvg",
+    "group": "08-media-creation",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:yt-dlp",
+    "kind": "paquet",
+    "name": "yt-dlp",
+    "group": "08-media-creation",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:aerc",
+    "kind": "paquet",
+    "name": "aerc",
+    "group": "09-bureautique-ocr",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:gedit",
+    "kind": "paquet",
+    "name": "gedit",
+    "group": "09-bureautique-ocr",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:gnome-calculator",
+    "kind": "paquet",
+    "name": "gnome-calculator",
+    "group": "09-bureautique-ocr",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:khal",
+    "kind": "paquet",
+    "name": "khal",
+    "group": "09-bureautique-ocr",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:onlyoffice-bin",
+    "kind": "paquet",
+    "name": "onlyoffice-bin",
+    "group": "09-bureautique-ocr",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:poppler",
+    "kind": "paquet",
+    "name": "poppler",
+    "group": "09-bureautique-ocr",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:python-reportlab",
+    "kind": "paquet",
+    "name": "python-reportlab",
+    "group": "09-bureautique-ocr",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:tesseract",
+    "kind": "paquet",
+    "name": "tesseract",
+    "group": "09-bureautique-ocr",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:tesseract-data-eng",
+    "kind": "paquet",
+    "name": "tesseract-data-eng",
+    "group": "09-bureautique-ocr",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:tesseract-data-fra",
+    "kind": "paquet",
+    "name": "tesseract-data-fra",
+    "group": "09-bureautique-ocr",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:anydesk-bin",
+    "kind": "paquet",
+    "name": "anydesk-bin",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:bind",
+    "kind": "paquet",
+    "name": "bind",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:blueman",
+    "kind": "paquet",
+    "name": "blueman",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:bluez",
+    "kind": "paquet",
+    "name": "bluez",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:bluez-tools",
+    "kind": "paquet",
+    "name": "bluez-tools",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:bluez-utils",
+    "kind": "paquet",
+    "name": "bluez-utils",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:bolt",
+    "kind": "paquet",
+    "name": "bolt",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:cifs-utils",
+    "kind": "paquet",
+    "name": "cifs-utils",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:cups",
+    "kind": "paquet",
+    "name": "cups",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:cups-filters",
+    "kind": "paquet",
+    "name": "cups-filters",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:cups-pdf",
+    "kind": "paquet",
+    "name": "cups-pdf",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:file-roller",
+    "kind": "paquet",
+    "name": "file-roller",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:foomatic-db",
+    "kind": "paquet",
+    "name": "foomatic-db",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:foomatic-db-engine",
+    "kind": "paquet",
+    "name": "foomatic-db-engine",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:foomatic-db-gutenprint-ppds",
+    "kind": "paquet",
+    "name": "foomatic-db-gutenprint-ppds",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:foomatic-db-nonfree",
+    "kind": "paquet",
+    "name": "foomatic-db-nonfree",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:foomatic-db-nonfree-ppds",
+    "kind": "paquet",
+    "name": "foomatic-db-nonfree-ppds",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:foomatic-db-ppds",
+    "kind": "paquet",
+    "name": "foomatic-db-ppds",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:fprintd",
+    "kind": "paquet",
+    "name": "fprintd",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:fwupd",
+    "kind": "paquet",
+    "name": "fwupd",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:gutenprint",
+    "kind": "paquet",
+    "name": "gutenprint",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:gvfs",
+    "kind": "paquet",
+    "name": "gvfs",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:gvfs-afc",
+    "kind": "paquet",
+    "name": "gvfs-afc",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:gvfs-mtp",
+    "kind": "paquet",
+    "name": "gvfs-mtp",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:gvfs-smb",
+    "kind": "paquet",
+    "name": "gvfs-smb",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:hplip",
+    "kind": "paquet",
+    "name": "hplip",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:inetutils",
+    "kind": "paquet",
+    "name": "inetutils",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:net-tools",
+    "kind": "paquet",
+    "name": "net-tools",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:nmap",
+    "kind": "paquet",
+    "name": "nmap",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:nss-mdns",
+    "kind": "paquet",
+    "name": "nss-mdns",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:rustdesk-bin",
+    "kind": "paquet",
+    "name": "rustdesk-bin",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:smb4k",
+    "kind": "paquet",
+    "name": "smb4k",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:smbclient",
+    "kind": "paquet",
+    "name": "smbclient",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:speedtest++",
+    "kind": "paquet",
+    "name": "speedtest++",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:speedtest-cli",
+    "kind": "paquet",
+    "name": "speedtest-cli",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:system-config-printer",
+    "kind": "paquet",
+    "name": "system-config-printer",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:tumbler",
+    "kind": "paquet",
+    "name": "tumbler",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:whois",
+    "kind": "paquet",
+    "name": "whois",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:wireguard-tools",
+    "kind": "paquet",
+    "name": "wireguard-tools",
+    "group": "10-peripheriques-reseau",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:adw-gtk-theme",
+    "kind": "paquet",
+    "name": "adw-gtk-theme",
+    "group": "11-themes-polices",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:bibata-cursor-theme",
+    "kind": "paquet",
+    "name": "bibata-cursor-theme",
+    "group": "11-themes-polices",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:humanity-icon-theme",
+    "kind": "paquet",
+    "name": "humanity-icon-theme",
+    "group": "11-themes-polices",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:kvantum",
+    "kind": "paquet",
+    "name": "kvantum",
+    "group": "11-themes-polices",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:kvantum-qt5",
+    "kind": "paquet",
+    "name": "kvantum-qt5",
+    "group": "11-themes-polices",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:matugen",
+    "kind": "paquet",
+    "name": "matugen",
+    "group": "11-themes-polices",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:noto-fonts",
+    "kind": "paquet",
+    "name": "noto-fonts",
+    "group": "11-themes-polices",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:noto-fonts-cjk",
+    "kind": "paquet",
+    "name": "noto-fonts-cjk",
+    "group": "11-themes-polices",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:noto-fonts-emoji",
+    "kind": "paquet",
+    "name": "noto-fonts-emoji",
+    "group": "11-themes-polices",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:otf-commit-mono-nerd",
+    "kind": "paquet",
+    "name": "otf-commit-mono-nerd",
+    "group": "11-themes-polices",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:otf-font-awesome",
+    "kind": "paquet",
+    "name": "otf-font-awesome",
+    "group": "11-themes-polices",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:papirus-icon-theme",
+    "kind": "paquet",
+    "name": "papirus-icon-theme",
+    "group": "11-themes-polices",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:qt5ct",
+    "kind": "paquet",
+    "name": "qt5ct",
+    "group": "11-themes-polices",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:qt6ct",
+    "kind": "paquet",
+    "name": "qt6ct",
+    "group": "11-themes-polices",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:ttf-dejavu",
+    "kind": "paquet",
+    "name": "ttf-dejavu",
+    "group": "11-themes-polices",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:ttf-jetbrains-mono",
+    "kind": "paquet",
+    "name": "ttf-jetbrains-mono",
+    "group": "11-themes-polices",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:ttf-jetbrains-mono-nerd",
+    "kind": "paquet",
+    "name": "ttf-jetbrains-mono-nerd",
+    "group": "11-themes-polices",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:ttf-liberation",
+    "kind": "paquet",
+    "name": "ttf-liberation",
+    "group": "11-themes-polices",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:ttf-ms-fonts",
+    "kind": "paquet",
+    "name": "ttf-ms-fonts",
+    "group": "11-themes-polices",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:ttf-symbola",
+    "kind": "paquet",
+    "name": "ttf-symbola",
+    "group": "11-themes-polices",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:yaru-icon-theme",
+    "kind": "paquet",
+    "name": "yaru-icon-theme",
+    "group": "11-themes-polices",
+    "source": "depot-configure-localement",
+    "default": true,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:lmstudio",
+    "kind": "paquet",
+    "name": "lmstudio",
+    "group": "12-ia-local",
+    "source": "hors-depots-configures",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:lib32-mesa",
+    "kind": "paquet",
+    "name": "lib32-mesa",
+    "group": "13-jeux",
+    "source": "ajout-propose",
+    "default": false,
+    "locked": false,
+    "note": "Option multilib"
+  },
+  {
+    "id": "pkg:lib32-vulkan-radeon",
+    "kind": "paquet",
+    "name": "lib32-vulkan-radeon",
+    "group": "13-jeux",
+    "source": "ajout-propose",
+    "default": false,
+    "locked": false,
+    "note": "Option multilib"
+  },
+  {
+    "id": "pkg:steam",
+    "kind": "paquet",
+    "name": "steam",
+    "group": "13-jeux",
+    "source": "ajout-propose",
+    "default": false,
+    "locked": false,
+    "note": "Option, non relevée comme installation actuelle"
+  },
+  {
+    "id": "cfg:mime",
+    "kind": "configuration",
+    "name": "Applications par défaut",
+    "group": "20-configuration",
+    "exists": true,
+    "default": false,
+    "locked": false,
+    "note": "Adapter aux applications réellement choisies."
+  },
+  {
+    "id": "cfg:fish",
+    "kind": "configuration",
+    "name": "Fish : config et fonctions",
+    "group": "20-configuration",
+    "exists": true,
+    "default": true,
+    "locked": false,
+    "note": "Exclure fish_variables, historique et données de session; conserver config.fish."
+  },
+  {
+    "id": "cfg:hypr",
+    "kind": "configuration",
+    "name": "Hyprland Lua : raccourcis, animations, fenêtres, gestes",
+    "group": "20-configuration",
+    "exists": true,
+    "default": true,
+    "locked": false,
+    "note": "Régénérer monitors.lua et workspaces.lua; vérifier les chemins et programmes des raccourcis."
+  },
+  {
+    "id": "cfg:starship",
+    "kind": "configuration",
+    "name": "Invite Starship",
+    "group": "20-configuration",
+    "exists": true,
+    "default": true,
+    "locked": false,
+    "note": "Préserver style et polices associées."
+  },
+  {
+    "id": "cfg:nvim",
+    "kind": "configuration",
+    "name": "Neovim personnalisé",
+    "group": "20-configuration",
+    "exists": true,
+    "default": true,
+    "locked": false,
+    "note": "Examiner plugins et commandes de bootstrap; ne pas copier les caches."
+  },
+  {
+    "id": "cfg:quickshell",
+    "kind": "configuration",
+    "name": "Quickshell : panneaux, prières, cassette, notifications",
+    "group": "20-configuration",
+    "exists": true,
+    "default": true,
+    "locked": false,
+    "note": "Conserver sources QML et scripts; examiner réglages de lieu et chemins; adapter les deux copies gpu.sh pour AMD."
+  },
+  {
+    "id": "cfg:quickshell-service",
+    "kind": "configuration",
+    "name": "Service utilisateur Quickshell",
+    "group": "20-configuration",
+    "exists": true,
+    "default": false,
+    "locked": true,
+    "note": "Service créé automatiquement avec la configuration Quickshell."
+  },
+  {
+    "id": "cfg:foot",
+    "kind": "configuration",
+    "name": "Terminal Foot",
+    "group": "20-configuration",
+    "exists": true,
+    "default": false,
+    "locked": false,
+    "note": "Option secondaire."
+  },
+  {
+    "id": "cfg:kitty",
+    "kind": "configuration",
+    "name": "Terminal Kitty",
+    "group": "20-configuration",
+    "exists": true,
+    "default": true,
+    "locked": false,
+    "note": "Terminal de secours prévu dans les raccourcis."
+  },
+  {
+    "id": "cfg:gtk",
+    "kind": "configuration",
+    "name": "Thème GTK 3/4",
+    "group": "20-configuration",
+    "exists": true,
+    "default": true,
+    "locked": false,
+    "note": "Exporter seulement settings.ini et CSS après examen, pas les fichiers récents."
+  },
+  {
+    "id": "cfg:qt",
+    "kind": "configuration",
+    "name": "Thème Qt 5/6",
+    "group": "20-configuration",
+    "exists": true,
+    "default": true,
+    "locked": false,
+    "note": "Prévoir qt5ct, qt6ct et Kvantum ensemble."
+  },
+  {
+    "id": "cfg:tmux",
+    "kind": "configuration",
+    "name": "Tmux et scripts associés",
+    "group": "20-configuration",
+    "exists": true,
+    "default": false,
+    "locked": false,
+    "note": "Exclure ssh_hosts; examiner scripts avant export; chemins custom_scripts absents."
+  },
+  {
+    "id": "cfg:files",
+    "kind": "configuration",
+    "name": "Application personnelle Files",
+    "group": "21-applications-locales",
+    "exists": true,
+    "default": false,
+    "locked": true,
+    "note": "Projet local absent du système installé : non embarqué ; raccourci adapté vers Yazi."
+  },
+  {
+    "id": "pkg:7zip",
+    "kind": "paquet",
+    "name": "7zip",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:acpi",
+    "kind": "paquet",
+    "name": "acpi",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:acpid",
+    "kind": "paquet",
+    "name": "acpid",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:alsa-firmware",
+    "kind": "paquet",
+    "name": "alsa-firmware",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:alsa-utils",
+    "kind": "paquet",
+    "name": "alsa-utils",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:apfs-fuse-git",
+    "kind": "paquet",
+    "name": "apfs-fuse-git",
+    "group": "80-autres-a-choisir",
+    "source": "hors-depots-configures",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:apfsprogs",
+    "kind": "paquet",
+    "name": "apfsprogs",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:aspell",
+    "kind": "paquet",
+    "name": "aspell",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:bash-completion",
+    "kind": "paquet",
+    "name": "bash-completion",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:bc",
+    "kind": "paquet",
+    "name": "bc",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:cdrtools",
+    "kind": "paquet",
+    "name": "cdrtools",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:cpu-x",
+    "kind": "paquet",
+    "name": "cpu-x",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:cpufetch",
+    "kind": "paquet",
+    "name": "cpufetch",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:cpupower",
+    "kind": "paquet",
+    "name": "cpupower",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:dmidecode",
+    "kind": "paquet",
+    "name": "dmidecode",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:dpkg",
+    "kind": "paquet",
+    "name": "dpkg",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:ex-vi-compat",
+    "kind": "paquet",
+    "name": "ex-vi-compat",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:flatpak",
+    "kind": "paquet",
+    "name": "flatpak",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:gcolor3",
+    "kind": "paquet",
+    "name": "gcolor3",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:gnome-disk-utility",
+    "kind": "paquet",
+    "name": "gnome-disk-utility",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:gptfdisk",
+    "kind": "paquet",
+    "name": "gptfdisk",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:hfsprogs",
+    "kind": "paquet",
+    "name": "hfsprogs",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:hfsutils",
+    "kind": "paquet",
+    "name": "hfsutils",
+    "group": "80-autres-a-choisir",
+    "source": "hors-depots-configures",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:hspell",
+    "kind": "paquet",
+    "name": "hspell",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:hunspell",
+    "kind": "paquet",
+    "name": "hunspell",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:i2c-tools",
+    "kind": "paquet",
+    "name": "i2c-tools",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:inxi",
+    "kind": "paquet",
+    "name": "inxi",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:iptables",
+    "kind": "paquet",
+    "name": "iptables",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:iwd",
+    "kind": "paquet",
+    "name": "iwd",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:lib32-libpulse",
+    "kind": "paquet",
+    "name": "lib32-libpulse",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:libgepub",
+    "kind": "paquet",
+    "name": "libgepub",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:libnotify",
+    "kind": "paquet",
+    "name": "libnotify",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:libopenraw",
+    "kind": "paquet",
+    "name": "libopenraw",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:libva-utils",
+    "kind": "paquet",
+    "name": "libva-utils",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:libvoikko",
+    "kind": "paquet",
+    "name": "libvoikko",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:lshw",
+    "kind": "paquet",
+    "name": "lshw",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:man-pages-fr",
+    "kind": "paquet",
+    "name": "man-pages-fr",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:mesa-utils",
+    "kind": "paquet",
+    "name": "mesa-utils",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:nmon",
+    "kind": "paquet",
+    "name": "nmon",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:nuspell",
+    "kind": "paquet",
+    "name": "nuspell",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:nvtop",
+    "kind": "paquet",
+    "name": "nvtop",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:power-profiles-daemon",
+    "kind": "paquet",
+    "name": "power-profiles-daemon",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:python-gobject",
+    "kind": "paquet",
+    "name": "python-gobject",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:python-pyqt5",
+    "kind": "paquet",
+    "name": "python-pyqt5",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:rsync",
+    "kind": "paquet",
+    "name": "rsync",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:sl",
+    "kind": "paquet",
+    "name": "sl",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:smartmontools",
+    "kind": "paquet",
+    "name": "smartmontools",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:sof-firmware",
+    "kind": "paquet",
+    "name": "sof-firmware",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:testdisk",
+    "kind": "paquet",
+    "name": "testdisk",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:tk",
+    "kind": "paquet",
+    "name": "tk",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:unrar",
+    "kind": "paquet",
+    "name": "unrar",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:unzip",
+    "kind": "paquet",
+    "name": "unzip",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:usbutils",
+    "kind": "paquet",
+    "name": "usbutils",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:v4l2loopback-dkms",
+    "kind": "paquet",
+    "name": "v4l2loopback-dkms",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:wget",
+    "kind": "paquet",
+    "name": "wget",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:wireless-regdb",
+    "kind": "paquet",
+    "name": "wireless-regdb",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:wireless_tools",
+    "kind": "paquet",
+    "name": "wireless_tools",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:wpa_supplicant",
+    "kind": "paquet",
+    "name": "wpa_supplicant",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:zip",
+    "kind": "paquet",
+    "name": "zip",
+    "group": "80-autres-a-choisir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:envycontrol",
+    "kind": "paquet",
+    "name": "envycontrol",
+    "group": "00-materiel-automatique",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": true,
+    "note": "Recalculé par détection sur chaque machine cible."
+  },
+  {
+    "id": "pkg:intel-gpu-tools",
+    "kind": "paquet",
+    "name": "intel-gpu-tools",
+    "group": "00-materiel-automatique",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": true,
+    "note": "Recalculé par détection sur chaque machine cible."
+  },
+  {
+    "id": "pkg:intel-media-driver",
+    "kind": "paquet",
+    "name": "intel-media-driver",
+    "group": "00-materiel-automatique",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": true,
+    "note": "Recalculé par détection sur chaque machine cible."
+  },
+  {
+    "id": "pkg:intel-ucode",
+    "kind": "paquet",
+    "name": "intel-ucode",
+    "group": "00-materiel-automatique",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": true,
+    "note": "Recalculé par détection sur chaque machine cible."
+  },
+  {
+    "id": "pkg:nvidia-open-dkms",
+    "kind": "paquet",
+    "name": "nvidia-open-dkms",
+    "group": "00-materiel-automatique",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": true,
+    "note": "Recalculé par détection sur chaque machine cible."
+  },
+  {
+    "id": "pkg:nvidia-settings",
+    "kind": "paquet",
+    "name": "nvidia-settings",
+    "group": "00-materiel-automatique",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": true,
+    "note": "Recalculé par détection sur chaque machine cible."
+  },
+  {
+    "id": "pkg:nvidia-utils",
+    "kind": "paquet",
+    "name": "nvidia-utils",
+    "group": "00-materiel-automatique",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": true,
+    "note": "Recalculé par détection sur chaque machine cible."
+  },
+  {
+    "id": "pkg:update-grub",
+    "kind": "paquet",
+    "name": "update-grub",
+    "group": "90-materiel-source-exclu",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": true,
+    "note": "Réglage de l’ancien système exclu ; amorçage/dépôts configurés par le nouvel installateur."
+  },
+  {
+    "id": "pkg:vulkan-intel",
+    "kind": "paquet",
+    "name": "vulkan-intel",
+    "group": "00-materiel-automatique",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": true,
+    "note": "Recalculé par détection sur chaque machine cible."
+  },
+  {
+    "id": "pkg:chaotic-keyring",
+    "kind": "paquet",
+    "name": "chaotic-keyring",
+    "group": "91-depots-a-revoir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": true,
+    "note": "Réglage de l’ancien système exclu ; amorçage/dépôts configurés par le nouvel installateur."
+  },
+  {
+    "id": "pkg:chaotic-mirrorlist",
+    "kind": "paquet",
+    "name": "chaotic-mirrorlist",
+    "group": "91-depots-a-revoir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": true,
+    "note": "Réglage de l’ancien système exclu ; amorçage/dépôts configurés par le nouvel installateur."
+  },
+  {
+    "id": "pkg:downgrade",
+    "kind": "paquet",
+    "name": "downgrade",
+    "group": "91-depots-a-revoir",
+    "source": "depot-configure-localement",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  },
+  {
+    "id": "pkg:yay-bin",
+    "kind": "paquet",
+    "name": "yay-bin",
+    "group": "91-depots-a-revoir",
+    "source": "hors-depots-configures",
+    "default": false,
+    "locked": false,
+    "note": "Origine exacte à vérifier sur le live ISO"
+  }
+]

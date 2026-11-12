@@ -1,0 +1,32 @@
+# Liste autorisée à la racine : ne pas ajouter le dossier personnel entier.
+/*
+!/.gitignore
+!/README.md
+!/install.sh
+!/*.py
+!/catalogue/
+!/catalogue/choix.json
+!/payload/
+!/payload/**
+!/docs/
+!/docs/**
+# Données privées / temporaires, même sous les dossiers autorisés.
+**/__pycache__/
+**/*.pyc
+**/.env
+**/.env.*
+**/*.pem
+**/*.key
+**/id_rsa*
+**/id_ed25519*
+**/auth.json
+**/credentials*
+**/fish_variables
+**/ssh_hosts
+**/fast-token
+**/*.log
+**/cache/
+**/state/
+/inventaire/
+/mes-choix*.json
+/options-differees.json

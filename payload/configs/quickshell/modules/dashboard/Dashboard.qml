@@ -1,0 +1,98 @@
+import QtQuick
+import Quickshell
+import Quickshell.Hyprland
+import Quickshell.Io
+import qs.core.constants
+import qs.core.enums
+import qs.services
+
+Scope {
+    id: root
+
+    readonly property bool onDash: DashState.tab === DashSection.dash
+    readonly property bool onPerf: DashState.tab === DashSection.performance
+    readonly property bool onMedia: DashState.tab === DashSection.media
+    readonly property bool onWeather: DashState.tab === DashSection.weather
+
+    Binding {
+        target: Weather
+        property: "active"
+        value: DashState.opened && root.onWeather
+    }
+
+    Binding {
+        target: Agenda
+        property: "active"
+        value: DashState.opened && root.onWeather
+    }
+
+    Binding {
+        target: SysInfo
+        property: "detailed"
+        value: DashState.opened && root.onPerf
+    }
+
+    Binding {
+        target: Cava
+        property: "active"
+        value: DashState.opened && Players.playing && (root.onMedia || root.onDash)
+    }
+
+    IpcHandler {
+        target: "equalizer"
+
+        function preset(name: string): string {
+            Equalizer.usePreset(name);
+            return Equalizer.preset;
+        }
+
+        function status(): string {
+            return `available=${Equalizer.available} node=${Equalizer.node?.id ?? -1} preset=${Equalizer.preset} gains=${Equalizer.gains.join(",")}`;
+        }
+    }
+
+    GlobalShortcut {
+        appid: Ids.appid
+        name: "dashboard"
+
+        onPressed: DashState.toggle("")
+    }
+
+    IpcHandler {
+        target: "dashboard"
+
+        function open(section: string): string {
+            DashState.show(section);
+            return DashState.tab;
+        }
+
+        function close(): string {
+            DashState.hide();
+            return IpcStatus.closed;
+        }
+
+        function toggle(section: string): string {
+            DashState.toggle(section);
+            return DashState.pinned ? DashState.tab : IpcStatus.closed;
+        }
+
+        function next(): string {
+            DashState.step(1);
+            return DashState.tab;
+        }
+
+        function previous(): string {
+            DashState.step(-1);
+            return DashState.tab;
+        }
+
+        function agendaUrl(url: string): string {
+            Agenda.setUrl(url);
+            return Agenda.configured ? IpcStatus.open : IpcStatus.closed;
+        }
+
+        function status(): string {
+            return `opened=${DashState.opened} pinned=${DashState.pinned} hovering=${DashState.hovering} tab=${DashState.tab}`;
+        }
+    }
+}

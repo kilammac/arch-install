@@ -1,0 +1,299 @@
+pragma Singleton
+pragma ComponentBehavior: Bound
+
+import QtQuick
+import Quickshell
+import Quickshell.Io
+import qs.core.config
+import qs.core.constants
+import qs.core.helpers
+
+Singleton {
+    id: root
+
+    readonly property string stateDir: `${Paths.state}/${Appearance.state.dir}`
+    readonly property string avatarDir: `${Paths.cache}/${Appearance.notif.avatarCacheDir}`
+    readonly property string statePath: `${root.stateDir}/${Appearance.notif.historyFile}`
+
+    property list<NotifEntry> entries: []
+    property int counter: 0
+    property bool loaded: false
+
+    readonly property int unread: root.toArray().filter(entry => !entry.read).length
+    readonly property int criticals: root.toArray().filter(entry => entry.critical).length
+
+    readonly property var groups: root.bucket(root.toArray())
+
+    function bucket(entries: var): var {
+        const buckets = new Map();
+
+        for (const entry of entries) {
+            const existing = buckets.get(entry.appName);
+
+            if (existing)
+                existing.entries.push(entry);
+            else
+                buckets.set(entry.appName, {
+                    appName: entry.appName,
+                    desktopEntry: entry.desktopEntry,
+                    image: entry.image,
+                    avatar: entry.avatarFile || entry.avatar,
+                    latest: entry.time,
+                    entries: [entry]
+                });
+        }
+
+        return Array.from(buckets.values()).sort((first, second) => second.latest - first.latest);
+    }
+
+    function toArray(): var {
+        const out = [];
+
+        for (let i = 0; i < root.entries.length; i++)
+            out.push(root.entries[i]);
+
+        return out;
+    }
+
+    function tagOf(hints: var): string {
+        const sync = hints?.[NotifHints.synchronous];
+        if (sync !== undefined)
+            return `${sync}` || NotifHints.synchronous;
+        return `${hints?.[NotifHints.stackTag] ?? ""}`;
+    }
+
+    function valueOf(hints: var): int {
+        const value = hints?.[NotifHints.value];
+        return typeof value === "number" ? Num.clamp(value, 0, Appearance.notif.progressMax) : -1;
+    }
+
+    function remember(notification): void {
+        const hints = notification.hints ?? {};
+        if (hints[NotifHints.restored] !== undefined)
+            return;
+
+        const appName = notification.appName || Appearance.notif.labelUnknownApp;
+        const tag = root.tagOf(hints);
+        if (tag !== "")
+            root.drop(list => list.filter(entry => entry.tag !== tag || entry.appName !== appName));
+
+        root.counter += 1;
+
+        const entry = component.createObject(root, {
+            key: `${Date.now()}-${root.counter}`,
+            appName,
+            desktopEntry: notification.desktopEntry ?? "",
+            tag,
+            summary: notification.summary ?? "",
+            body: notification.body ?? "",
+            image: "",
+            urgency: notification.urgency,
+            time: Date.now(),
+            read: false,
+            value: root.valueOf(hints),
+            notification
+        });
+
+        root.entries = [entry].concat(root.toArray());
+        root.sweep();
+        root.save();
+    }
+
+    function detach(notification): void {
+        for (const entry of root.toArray())
+            if (entry.notification === notification) {
+                entry.notification = null;
+                entry.avatar = "";
+            }
+    }
+
+    function dismiss(entry: NotifEntry): void {
+        entry.notification?.dismiss();
+        root.drop(list => list.filter(candidate => candidate !== entry));
+    }
+
+    function clearApp(appName: string): void {
+        root.drop(list => list.filter(entry => entry.appName !== appName));
+    }
+
+    function clear(): void {
+        root.loaded = true;
+        root.drop(() => []);
+    }
+
+    function clearCritical(): void {
+        root.drop(list => list.filter(entry => !entry.critical));
+    }
+
+    function drop(transform): void {
+        const kept = transform(root.toArray());
+        const removed = root.toArray().filter(entry => !kept.includes(entry));
+
+        root.entries = kept;
+        root.flush();
+        root.reap(removed);
+    }
+
+    function reap(removed: var): void {
+        Qt.callLater(() => {
+            for (const entry of removed) {
+                if (entry.avatarFile !== "")
+                    Quickshell.execDetached(["rm", "-f", entry.avatarFile.replace(Appearance.notif.fileScheme, "")]);
+                entry.destroy();
+            }
+        });
+    }
+
+    function markAllRead(): void {
+        let changed = false;
+
+        for (const entry of root.toArray())
+            if (!entry.read) {
+                entry.read = true;
+                changed = true;
+            }
+
+        if (changed)
+            root.save();
+    }
+
+    function sweep(): void {
+        const oldest = Date.now() - Prefs.historyDays * Units.msPerDay;
+        const fresh = root.toArray().filter(entry => entry.time >= oldest);
+        const capped = fresh.slice(0, Prefs.historyMax);
+
+        if (capped.length === root.entries.length)
+            return;
+
+        const removed = root.toArray().filter(entry => !capped.includes(entry));
+
+        root.entries = capped;
+        root.reap(removed);
+    }
+
+    function entryOf(notification): NotifEntry {
+        if (!notification)
+            return null;
+
+        return root.toArray().find(entry => entry.notification === notification) ?? null;
+    }
+
+    function setOrigin(entry: NotifEntry, host: string): void {
+        if (!entry)
+            return;
+
+        entry.origin = host;
+        root.save();
+    }
+
+    function setImage(entry: NotifEntry, image: string, avatar: string): void {
+        if (!entry)
+            return;
+
+        entry.image = image;
+        if (entry.live && avatar !== "")
+            entry.avatar = avatar;
+        root.save();
+    }
+
+    function avatarPath(entry: NotifEntry): string {
+        return entry ? `${root.avatarDir}/${entry.key}.png` : "";
+    }
+
+    function setAvatarFile(entry: NotifEntry, path: string): void {
+        if (!entry)
+            return;
+
+        entry.avatarFile = `${Appearance.notif.fileScheme}${path}`;
+        root.save();
+    }
+
+    function save(): void {
+        debounce.restart();
+    }
+
+    function flush(): void {
+        if (!root.loaded) {
+            root.save();
+            return;
+        }
+
+        debounce.stop();
+        store.setText(JSON.stringify({
+            version: Appearance.notif.historyVersion,
+            entries: root.toArray().map(entry => entry.serialise())
+        }));
+    }
+
+    function adopt(payload: string): void {
+        if (root.loaded)
+            return;
+
+        root.loaded = true;
+
+        let parsed;
+
+        try {
+            parsed = JSON.parse(payload);
+        } catch (e) {
+            console.warn("NotifHistory: store is not valid JSON, starting empty");
+            return;
+        }
+
+        if (!parsed || parsed.version !== Appearance.notif.historyVersion || !Array.isArray(parsed.entries))
+            return;
+
+        const restored = parsed.entries.map(raw => component.createObject(root, Object.assign({}, raw, {
+            image: raw.image?.startsWith(Appearance.notif.transientImagePrefix) ? "" : raw.image
+        })));
+        root.entries = root.toArray().concat(restored);
+        root.sweep();
+    }
+
+    readonly property Component component: Component {
+        NotifEntry {}
+    }
+
+    readonly property Timer debounce: Timer {
+        interval: Appearance.notif.historySaveDebounce
+
+        onTriggered: root.flush()
+    }
+
+    readonly property Timer sweeper: Timer {
+        interval: Appearance.notif.historySweepInterval
+        running: true
+        repeat: true
+
+        onTriggered: root.sweep()
+    }
+
+    readonly property Connections limits: Connections {
+        target: Prefs
+
+        function onHistoryDaysChanged(): void {
+            root.sweep();
+            root.save();
+        }
+
+        function onHistoryMaxChanged(): void {
+            root.sweep();
+            root.save();
+        }
+    }
+
+    readonly property Process ensureDir: Process {
+        running: true
+
+        command: ["mkdir", "-p", root.stateDir, root.avatarDir]
+    }
+
+    readonly property FileView store: FileView {
+        path: root.statePath
+        atomicWrites: true
+        printErrors: false
+
+        onLoaded: root.adopt(text())
+        onLoadFailed: root.loaded = true
+    }
+}

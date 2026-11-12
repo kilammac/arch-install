@@ -1,0 +1,31 @@
+-- Autostart
+-- https://wiki.hypr.land/Configuring/Basics/Autostart/
+-- hl.exec_cmd() spawns an async process (no need for "& disown").
+
+hl.on("hyprland.start", function()
+	-- Give D-Bus activated services (portals) the session environment
+	hl.exec_cmd("dbus-update-activation-environment --systemd --all")
+
+	-- Load GTK settings
+	hl.exec_cmd("~/.config/hypr/scripts/gtk.sh")
+
+	-- Load Quickshell shell (replaces waybar and dunst), supervised so a crash restarts it
+	hl.exec_cmd("systemctl --user import-environment WAYLAND_DISPLAY HYPRLAND_INSTANCE_SIGNATURE XDG_CURRENT_DESKTOP XDG_SESSION_TYPE && systemctl --user restart quickshell.service")
+
+	-- tmux server as a user service, outside any kitty scope
+	hl.exec_cmd("systemctl --user import-environment WAYLAND_DISPLAY HYPRLAND_INSTANCE_SIGNATURE XDG_CURRENT_DESKTOP XDG_SESSION_TYPE && systemctl --user start tmux.service")
+
+	-- Automount disks
+	hl.exec_cmd("udiskie -s")
+
+	-- Cursor
+	hl.exec_cmd("hyprctl setcursor 'Bibata-Modern-Ice' 24")
+
+	-- Portal
+	-- hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
+	hl.exec_cmd("dbus-update-activation-environment --systemd --all")
+	hl.exec_cmd("systemctl --user import-environment QT_QPA_PLATFORMTHEME")
+
+	-- Keyring
+	hl.exec_cmd("~/.config/hypr/scripts/keyring.sh")
+end)

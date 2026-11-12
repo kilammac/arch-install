@@ -1,0 +1,209 @@
+pragma ComponentBehavior: Bound
+
+import QtQuick
+import QtQml.Models
+import Quickshell.Widgets
+import qs.core.components
+import qs.core.config
+import qs.core.enums
+import qs.core.helpers
+import qs.modules.dashboard.components
+import qs.modules.dashboard.dash
+import qs.modules.dashboard.media
+import qs.modules.dashboard.prayers
+import qs.modules.dashboard.performance
+import qs.modules.dashboard.weather
+
+RevealCard {
+    id: root
+
+    readonly property Item pane: repeater.count > DashState.index ? repeater.itemAt(DashState.index) : null
+    readonly property real minPaneWidth: repeater.count > 0 ? repeater.itemAt(DashState.sections.indexOf(DashSection.dash))?.implicitWidth ?? 0 : 0
+    readonly property real paneWidth: root.pane?.width ?? 0
+    readonly property real paneHeight: root.pane?.implicitHeight ?? 0
+
+    outlineColour: tabs.fill
+    implicitWidth: root.paneWidth + Appearance.dash.padding * 2
+    implicitHeight: (tabs.implicitHeight || 0) + root.paneHeight + Appearance.dash.padding * 3
+
+    color: Colours.bar
+    topLeftRadius: 0
+    topRightRadius: 0
+    bottomLeftRadius: Appearance.border.rounding
+    bottomRightRadius: Appearance.border.rounding
+    scaleFrom: Appearance.dash.scaleFrom
+    transformOrigin: Item.Top
+
+    visible: root.revealed || root.opacity > 0
+    focus: true
+
+    Keys.onPressed: event => {
+        const tabs = Nav.horizontal(event);
+        if (tabs !== 0) {
+            DashState.step(tabs);
+            event.accepted = true;
+        }
+    }
+
+    onRevealedChanged: {
+        if (root.revealed && DashState.pinned)
+            root.forceActiveFocus();
+    }
+
+    Behavior on implicitWidth {
+        Anim {
+            type: AnimType.emphasizedSmall
+        }
+    }
+
+    Behavior on implicitHeight {
+        Anim {
+            type: AnimType.emphasizedSmall
+        }
+    }
+
+    readonly property bool onDash: DashState.tab === DashSection.dash
+    readonly property bool onMedia: DashState.tab === DashSection.media
+
+    HoverHandler {
+        onHoveredChanged: DashState.panelHover = hovered
+    }
+
+    Fillet {
+        anchors.right: parent.left
+        anchors.top: parent.top
+
+        origin: Corner.bottomLeft
+    }
+
+    Fillet {
+        anchors.left: parent.right
+        anchors.top: parent.top
+
+        origin: Corner.bottomRight
+    }
+
+    SegmentBar {
+        id: tabs
+
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.margins: Appearance.dash.padding
+
+        current: DashState.tab
+        options: [
+            {
+                key: DashSection.dash,
+                icon: Icons.dashTab,
+                label: Appearance.dash.labelDash,
+                accent: Colours.tabDash
+            },
+            {
+                key: DashSection.weather,
+                icon: Icons.weatherPartly,
+                label: Appearance.weather.labelWeather,
+                accent: Colours.tabWeather
+            },
+            {
+                key: DashSection.performance,
+                icon: Icons.perfTab,
+                label: Appearance.dash.labelPerformance,
+                accent: Colours.tabPerformance
+            },
+            {
+                key: DashSection.media,
+                icon: Icons.mediaTab,
+                label: Appearance.dash.labelMedia,
+                accent: Colours.tabMedia
+            },
+            {
+                key: DashSection.prayers,
+                icon: Icons.prayersTab,
+                label: Appearance.dash.labelPrayers,
+                accent: Colours.tabPrayers
+            }
+        ].filter(option => DashState.sections.includes(option.key))
+
+        onSelected: key => DashState.tab = key
+    }
+
+    ClippingRectangle {
+        id: viewport
+
+        anchors.top: tabs.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.topMargin: Appearance.dash.padding
+
+        width: root.paneWidth
+        height: root.paneHeight
+        color: "transparent"
+        radius: Appearance.dash.cardRounding
+
+        Row {
+            id: row
+
+            spacing: Appearance.dash.padding * 2
+            x: -(root.pane?.x ?? 0)
+
+            Behavior on x {
+                Anim {
+                    type: AnimType.emphasized
+                }
+            }
+
+            Repeater {
+                id: repeater
+
+                model: DashState.sections
+
+                DelegateChooser {
+                    role: "modelData"
+
+                    DelegateChoice {
+                        roleValue: DashSection.dash
+
+                        delegate: DashPane {
+                            active: root.onDash
+                        }
+                    }
+                    DelegateChoice {
+                        roleValue: DashSection.weather
+
+                        delegate: WeatherPane {
+                            accent: Colours.tabWeather
+                            onFocusRequested: DashState.pinned = true
+                            onFocusReleased: root.forceActiveFocus()
+                        }
+                    }
+                    DelegateChoice {
+                        roleValue: DashSection.performance
+
+                        delegate: PerfPane {
+                            accent: Colours.tabPerformance
+                            width: Math.max(implicitWidth, root.minPaneWidth)
+                        }
+                    }
+                    DelegateChoice {
+                        roleValue: DashSection.media
+
+                        delegate: MediaPane {
+                            accent: Colours.tabMedia
+                            active: root.onMedia
+                        }
+                    }
+                    DelegateChoice {
+                        roleValue: DashSection.prayers
+
+                        delegate: PrayerPane {
+                            accent: Colours.tabPrayers
+                            width: Math.max(implicitWidth, root.minPaneWidth)
+                            onFocusRequested: DashState.pinned = true
+                            onFocusReleased: root.forceActiveFocus()
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,47 @@
+import QtQuick
+import QtQuick.Layouts
+import Quickshell
+import qs.core.components
+import qs.core.config
+import qs.core.helpers
+import qs.modules.hardware
+
+Pill {
+    id: root
+
+    required property string glyph
+    required property int percent
+    required property color ringColour
+    required property string section
+    property var launchCommand: []
+
+    readonly property color stateColour: Tone.usage(root.percent, Colours.text)
+    readonly property color stateRingColour: Tone.usage(root.percent, root.ringColour)
+
+    trailing: Appearance.bar.pillMarginRight
+
+    interactive: true
+    secondary: root.launchCommand.length > 0
+
+    onClicked: HardwareState.toggle(root.section)
+    onSecondaryClicked: Launch.app(root.launchCommand)
+
+    Icon {
+        text: root.glyph
+        color: root.stateColour
+    }
+
+    StyledText {
+        text: Appearance.scale.percentTemplate.arg(root.percent)
+        color: root.stateColour
+    }
+
+    Ring {
+        Layout.leftMargin: Appearance.bar.ringMarginLeft
+
+        visible: !root.vertical
+
+        value: root.percent / 100
+        colour: root.stateRingColour
+    }
+}
