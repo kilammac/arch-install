@@ -6,7 +6,7 @@
 - Syntaxe Python et Lua des sources embarquées vérifiée.
 - Lancement normal sur le système actuel : refus attendu avant toute installation.
 - `bash install.sh --check` : manifeste des 656 fichiers embarqués valide.
-- `python -B -m unittest -v test_hardware test_installer test_tui test_session_state test_snapshots test_options_permissions test_package_exclusions` : 40 tests réussis.
+- `python -B -m unittest -v test_hardware test_installer test_tui test_session_state test_snapshots test_options_permissions test_package_exclusions test_unattended` : 49 tests réussis.
 - Exclusions `dsearch-bin` et `flea-arch-git` : anciens choix migrés, liste
   différée et programme installé actualisés lors des reprises ; aucun appel à
   sudo/yay si ces deux paquets étaient les seuls compléments restants.
@@ -106,3 +106,30 @@ avant la construction AUR. Les tests couvrent la copie d’une source en 700, le
 permissions réparées, les autres fichiers laissés privés, les fichiers manquants
 et l’ordre contrôle/exécution sur une installation déjà déployée. La réparation
 est aussi appelée lors d’une reprise dont l’étape `deploy` est déjà validée.
+
+## Parcours automatique et mots de passe
+
+Les tests vérifient la confirmation initiale des mots de passe, leurs deux étapes
+indépendantes à la reprise, leur absence des arguments/journaux/états, les réponses
+automatiques de yay et le retrait de la règle sudo après succès, erreur ou interruption.
+Le vrai `main()` est aussi exécuté avec les opérations disque/installation simulées :
+aucune question après confirmation du disque, avec et sans redémarrage choisi au début.
+
+Une recette complémentaire a été exécutée le 12 novembre 2026 dans un live Arch
+QEMU/KVM, sur une surcouche jetable du disque BIOS déjà installé :
+
+- Application réelle de mots de passe aléatoires utilisateur et root par `chpasswd`,
+  puis vérification des deux empreintes ; aucune valeur dans le journal.
+- Compilation et installation réelles de yay 13.1.0 depuis son PKGBUILD AUR.
+- Construction et installation réelles du paquet AUR de recette `downgrade` 12.0.4,
+  sans entrée standard ni saisie de mot de passe ou confirmation.
+- `sudo -n /usr/bin/pacman -V` refusé pour le compte avant et après cette phase,
+  mais autorisé par la règle temporaire durant la construction.
+- Échec AUR provoqué par un nom inexistant : bilan conservé et règle retirée.
+- Interruption Python et nettoyage `systemd-tmpfiles --remove --boot` vérifiés :
+  suppression effective de la règle temporaire dans les deux cas.
+
+Cette recette valide les mots de passe et le parcours AUR réel sur une cible
+préinstallée ; elle ne répète pas le partitionnement ni toute l’installation.
+Les logiciels de recette n’ont été ajoutés que dans la VM. Aucun paquet, compte
+ou réglage sudo du poste physique n’a été modifié.

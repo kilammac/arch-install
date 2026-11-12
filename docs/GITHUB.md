@@ -42,7 +42,7 @@ détaillés dans VALIDATION.md.
 ```bash
 python -B audit_publication.py
 bash install.sh --check
-python -B -m unittest -v test_hardware test_installer test_tui test_session_state test_snapshots test_options_permissions test_package_exclusions
+python -B -m unittest -v test_hardware test_installer test_tui test_session_state test_snapshots test_options_permissions test_package_exclusions test_unattended
 git diff
 ```
 

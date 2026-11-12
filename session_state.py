@@ -8,7 +8,7 @@ import uuid
 from pathlib import Path
 
 RELATIVE = Path('var/lib/arch-personnel-install/state.json')
-STEPS = {'filesystem', 'base', 'locale', 'account', 'password-set', 'boot',
+STEPS = {'filesystem', 'base', 'locale', 'account', 'password-set', 'root-password-set', 'boot',
          'services', 'deploy', 'snapshots', 'options', 'initial-snapshot', 'verify'}
 
 
@@ -30,7 +30,8 @@ def validate(data):
         raise ValueError('Disposition ou mode disque enregistré invalide.')
     def no_secrets(item):
         if isinstance(item, dict):
-            if any(str(key).lower() in {'password', 'passwd', 'token', 'secret'} for key in item):
+            if any(str(key).lower() in {'password', 'passwd', 'token', 'secret',
+                                       'credentials', 'user_password', 'root_password'} for key in item):
                 raise ValueError('Un état ne doit pas contenir de secret.')
             for value in item.values():
                 no_secrets(value)

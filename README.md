@@ -13,8 +13,17 @@ bash install.sh
 
 Le lanceur récupère le dossier complet, prépare Gum puis ouvre le parcours guidé :
 identité et langue, familles logicielles, réglage fin des paquets, configurations,
-shell, chargeur, choix des snapshots, disque et résumé avant confirmation. Les opérations affichent
-leur progression et conservent un journal dans `/run/arch-personnel/install.log`.
+shell, chargeur, snapshots et choix du redémarrage. Les mots de passe utilisateur
+et root sont saisis et confirmés avant le disque et la confirmation finale.
+Les opérations affichent leur progression et conservent un journal dans
+`/run/arch-personnel/install.log`.
+
+Après confirmation du disque, l’installation se déroule automatiquement, y compris
+la construction de yay, les paquets AUR et le nettoyage de leurs dépendances de
+construction. Aucun mot de passe ni confirmation de paquet n’est redemandé.
+Une erreur réelle arrête le parcours en conservant la reprise.
+Voir [le fonctionnement du mode automatique](docs/AUTOMATIQUE.md).
+
 Dans Gum : flèches pour naviguer, `x` pour cocher et Entrée pour valider.
 
 Depuis un clone local :
@@ -50,8 +59,8 @@ ESP FAT32 GPT de 1 Gio minimum, avec 700 Mio libres. Le mode d’effacement pren
 en charge UEFI/systemd-boot et BIOS/GRUB. Secure Boot doit être désactivé.
 
 Le bureau Hyprland/Quickshell et les configurations sont embarqués dans `payload/`.
-Les écrans et le clavier sont adaptés à la cible. Les comptes et secrets restent
-à configurer localement. Le lieu de météo/prières est à régler après installation.
+Les écrans et le clavier sont adaptés à la cible. Les comptes des services et
+leurs secrets restent à configurer localement. Le lieu de météo/prières est à régler après installation.
 Le test Fast.com utilise désormais une variable ou un fichier local non publié,
 voir [l’audit et les différences](docs/AUDIT.md).
 
@@ -68,7 +77,7 @@ et de la liste des compléments installée, même si le déploiement était déj
 - [Snapshots, progression et reprise après échec](docs/SNAPSHOTS-REPRISE.md)
 - [Vérification de l’installateur](docs/VALIDATION.md)
 
-40 tests automatisés passent. Une installation et un redémarrage BIOS/LTS ont
+49 tests automatisés passent. Une installation et un redémarrage BIOS/LTS ont
 réussi dans QEMU/KVM sur disque jetable. La session graphique complète et le
 parcours UEFI restent à valider ; voir les limites dans VALIDATION.md.
 

@@ -42,7 +42,8 @@ class OptionsPermissionsTests(unittest.TestCase):
             calls = [call.args for call in chroot.call_args_list]
             self.assertEqual(calls[0][0], 'chown')
             self.assertIn('-c', calls[1])
-            self.assertEqual(calls[2][-1], '/opt/arch-personnel/postinstall.py')
+            self.assertEqual(calls[2], ('visudo', '-cf', '/etc/sudoers'))
+            self.assertEqual(calls[3][-2:], ('/opt/arch-personnel/postinstall.py', '--unattended'))
             self.assertIn('demo', calls[1])
 
     def test_missing_script_refused(self):

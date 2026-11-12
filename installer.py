@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Installateur live : étapes explicites, sans reprise du partitionnement."""
 import argparse
+from contextlib import contextmanager
+import getpass
 import hashlib
 import json
 import os
@@ -21,6 +23,8 @@ from postinstall import EXCLUDED_PACKAGES, normalize_packages
 
 ROOT = Path(__file__).resolve().parent
 TARGET = Path('/mnt/arch-personnel')
+RUNTIME = Path('/run/arch-personnel')
+AUR_SUDO_RULE = 'etc/sudoers.d/90-arch-personnel-aur'
 
 
 def run(*args, capture=False, interactive=False):
@@ -42,6 +46,35 @@ def write(relative, text, mode=0o644):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(text)
     path.chmod(mode)
+
+
+def collect_passwords(user, session=None):
+    """Secrets en mémoire uniquement ; une reprise saute les comptes déjà validés."""
+    credentials = {}
+    for account, step in [(user, 'password-set'), ('root', 'root-password-set')]:
+        if session and session.done(step):
+            continue
+        while True:
+            value = getpass.getpass(f'Mot de passe de {account} : ')
+            confirmation = getpass.getpass(f'Confirmer le mot de passe de {account} : ')
+            if value and not any(c in value for c in '\r\n\0') and value == confirmation:
+                credentials[account] = value
+                break
+            print('Mot de passe vide, invalide ou confirmation différente ; recommencer.')
+    return credentials
+
+
+def set_password(account, credentials):
+    value = credentials.pop(account, None)
+    if not value or any(c in value for c in '\r\n\0'):
+        raise RuntimeError('Mot de passe non saisi au début pour ' + account)
+    # Ne jamais passer par UI.command, les arguments ou les variables d’environnement.
+    try:
+        subprocess.run(['arch-chroot', str(TARGET), 'chpasswd'],
+                       input=f'{account}:{value}\n', text=True, check=True,
+                       stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    except subprocess.CalledProcessError:
+        raise RuntimeError('Échec de définition du mot de passe de ' + account) from None
 
 
 def verify_bundle():
@@ -141,7 +174,7 @@ def graphics(report):
         if re.search(r'\b(?:TU|GA|AD|GB)[0-9]{3}', name):
             packages.update(['nvidia-open-dkms', 'nvidia-utils'])
         elif re.search(r'\b(?:GM|GP|GV)[0-9]{3}', name):
-            print('Ancienne génération NVIDIA : pilote 580xx proposé après redémarrage ; nouveau reste disponible dans le noyau pour le premier démarrage.')
+            print('Ancienne génération NVIDIA : pilote 580xx ajouté aux compléments AUR ; nouveau reste disponible si sa construction échoue.')
             extra.update(['nvidia-580xx-dkms', 'nvidia-580xx-utils'])
         else:
             print('Génération NVIDIA non reconnue automatiquement :', name)
@@ -188,7 +221,7 @@ def package_plan(selected, report, boot='systemd-boot', snapshot_mode='none'):
         deferred.add('yay')  # construire le helper depuis son PKGBUILD AUR
     # Ces programmes de session ne doivent pas concurrencer le Quickshell personnel.
     print('\nPaquets officiels :', ' '.join(sorted(official)))
-    print('Options à installer après redémarrage :', ' '.join(sorted(deferred)) or 'aucune')
+    print('Compléments à installer automatiquement avec yay :', ' '.join(sorted(deferred)) or 'aucune')
     print('Un paquet absent des dépôts sera recherché dans AUR, sans supposer son origine.')
     return sorted(official), sorted(deferred)
 
@@ -264,8 +297,7 @@ def mount_root(root, esp):
 
 
 def chroot(*args, capture=False):
-    return run('arch-chroot', TARGET, *args, capture=capture,
-               interactive=bool(args and args[0] in {'passwd', 'runuser'}))
+    return run('arch-chroot', TARGET, *args, capture=capture)
 
 
 def options_runtime_permissions(directory):
@@ -300,10 +332,32 @@ def prepare_options_runtime(user, deferred=None):
            f'LOGNAME={user}', 'python', '-I', '-c', probe)
 
 
+def cleanup_options_sudo():
+    (TARGET / AUR_SUDO_RULE).unlink(missing_ok=True)
+
+
+@contextmanager
+def options_sudo(user):
+    if not re.fullmatch(r'[a-z_][a-z0-9_-]{0,30}', user) or user in {'root', 'nobody'}:
+        raise ValueError('Compte de construction AUR invalide.')
+    # Nettoyage au prochain démarrage aussi en cas de coupure brutale du live.
+    write('etc/tmpfiles.d/arch-personnel-aur.conf', f'r /{AUR_SUDO_RULE}\n')
+    cleanup_options_sudo()
+    try:
+        write(AUR_SUDO_RULE, f'{user} ALL=(root) NOPASSWD: /usr/bin/pacman, /usr/bin/mkinitcpio\n', 0o440)
+        chroot('visudo', '-cf', '/etc/sudoers')
+        yield
+    finally:
+        cleanup_options_sudo()
+
+
 def run_options(user, deferred=None):
+    cleanup_options_sudo()
     prepare_options_runtime(user, deferred)
-    chroot('runuser', '-u', user, '--', 'env', f'HOME=/home/{user}', f'USER={user}',
-           f'LOGNAME={user}', 'python', '-I', '/opt/arch-personnel/postinstall.py')
+    with options_sudo(user):
+        chroot('runuser', '-u', user, '--', 'env', f'HOME=/home/{user}', f'USER={user}',
+               f'LOGNAME={user}', 'GIT_TERMINAL_PROMPT=0', 'python', '-I',
+               '/opt/arch-personnel/postinstall.py', '--unattended')
 
 
 def execute_step(session, name, label, action):
@@ -314,7 +368,7 @@ def execute_step(session, name, label, action):
 
 
 def configure(user, hostname, keymap, timezone, locale, report, root, disk, selected, deferred,
-              login_shell='bash', boot='systemd-boot', session=None, snapshot_mode='none'):
+              login_shell='bash', boot='systemd-boot', session=None, snapshot_mode='none', credentials=None):
     def locale_setup():
         write('etc/fstab', run('genfstab', '-U', TARGET, capture=True) + '\n')
         write('etc/hostname', hostname + '\n')
@@ -342,11 +396,14 @@ def configure(user, hostname, keymap, timezone, locale, report, root, disk, sele
         chroot('visudo', '-cf', '/etc/sudoers')
     execute_step(session, 'account', 'Compte et sudo', account)
 
-    def passwords():
-        print('Définis le mot de passe du compte ; il ne sera jamais enregistré dans l’état de reprise.')
-        chroot('passwd', user)
-        chroot('usermod', '-L', 'root')
-    execute_step(session, 'password-set', 'Mot de passe du compte', passwords)
+    credentials = credentials if credentials is not None else {}
+    try:
+        execute_step(session, 'password-set', 'Définir le mot de passe utilisateur',
+                     lambda: set_password(user, credentials))
+        execute_step(session, 'root-password-set', 'Définir le mot de passe root',
+                     lambda: set_password('root', credentials))
+    finally:
+        credentials.clear()
 
     def boot_setup():
         write('etc/mkinitcpio.conf.d/10-personnel.conf', 'HOOKS=(base systemd autodetect microcode modconf kms keyboard sd-vconsole block filesystems fsck)\n')
@@ -396,6 +453,7 @@ def configure(user, hostname, keymap, timezone, locale, report, root, disk, sele
 
 
 def verify_target():
+    cleanup_options_sudo()
     for kernel in ['linux', 'linux-lts']:
         for name in [f'vmlinuz-{kernel}', f'initramfs-{kernel}.img']:
             image = TARGET / 'boot' / name
@@ -418,6 +476,8 @@ def validate_settings(settings, report):
                          'snapshot_mode': snapshots.MODES}.items():
         if settings.get(key) not in allowed:
             raise ValueError('Choix enregistré invalide : ' + key)
+    if not isinstance(settings.get('reboot', False), bool):
+        raise ValueError('Choix de redémarrage enregistré invalide.')
     if not isinstance(settings.get('uefi'), bool) or settings['uefi'] != report['uefi']:
         raise RuntimeError('Le mode de démarrage a changé : reprendre avec le même mode UEFI/BIOS.')
     zone = (Path('/usr/share/zoneinfo') / settings['timezone']).resolve()
@@ -438,7 +498,7 @@ def validate_settings(settings, report):
 
 
 def progress_steps(snapshot_mode, deferred):
-    names = ['filesystem', 'base', 'locale', 'account', 'password-set', 'boot', 'services', 'deploy']
+    names = ['filesystem', 'base', 'locale', 'account', 'password-set', 'root-password-set', 'boot', 'services', 'deploy']
     if snapshot_mode != 'none':
         names.append('snapshots')
     if deferred:
@@ -474,6 +534,7 @@ def prepare_existing_session(session, report, fresh_log=False):
         return None
     disk, root, esp = resolve_layout(layout, blocks(), TARGET, run)
     mount_existing(TARGET, root, esp, layout, run)
+    cleanup_options_sudo()
     old_log = (TARGET / RELATIVE).parent / 'install.log'
     if fresh_log and old_log.is_file() and UI.log:
         current = UI.log.read_text()
@@ -515,7 +576,7 @@ def main():
             UI.step(label, lambda: None)
         return
     live_required(check_target=False)
-    logdir = Path('/run/arch-personnel')
+    logdir = RUNTIME
     logdir.mkdir(mode=0o700, exist_ok=True)
     UI.log = logdir / 'install.log'
     fresh_log = not UI.log.exists() or UI.log.stat().st_size == 0
@@ -577,10 +638,10 @@ def main():
         settings = session.data['settings']
         selected = validate_settings(settings, report)
     else:
-        user, hostname, keymap, locale, timezone, selected, login_shell, boot, snapshot_mode = questionnaire(report)
+        user, hostname, keymap, locale, timezone, selected, login_shell, boot, snapshot_mode, reboot = questionnaire(report)
         settings = dict(user=user, hostname=hostname, keymap=keymap, locale=locale,
                         timezone=timezone, login_shell=login_shell, boot=boot, snapshot_mode=snapshot_mode,
-                        selected_ids=[r['id'] for r in selected], uefi=report['uefi'],
+                        selected_ids=[r['id'] for r in selected], uefi=report['uefi'], reboot=reboot,
                         payload_digest=hashlib.sha256((ROOT / 'payload/manifest.json').read_bytes()).hexdigest())
         session = Session.create(settings, runtime, UI.log)
         if backup:
@@ -591,6 +652,7 @@ def main():
     session.data['packages'] = official
     session.data['deferred'] = deferred
     session.save()
+    credentials = collect_passwords(user, session)
     UI.header(2, 'Disque et confirmation')
     existing = prepare_existing_session(session, report, fresh_log)
     if existing:
@@ -606,7 +668,8 @@ def main():
         parts = manual_parts(disk, report['uefi']) if mode == 'partitions' else None
         UI.box(f'Compte : {user} · machine : {hostname}\nShell : {login_shell} · chargeur : {boot}\nSnapshots : {snapshot_mode}\nCible : {disk["name"]} · {int(disk["size"])/1024**3:.1f} Gio\n' +
                ('EFFACEMENT COMPLET DU DISQUE' if not parts else f'FORMATAGE : {parts[0]} · ESP conservée : {parts[1]}') +
-               f'\n{len(official)} paquets officiels · {len(deferred)} compléments\nSystème non chiffré')
+               f'\n{len(official)} paquets officiels · {len(deferred)} compléments\nSystème non chiffré\n'
+               'Après confirmation : installation automatique, y compris AUR et ses dépendances.')
         if not backup:
             print('État durable sur la cible dès les premiers montages. Pour protéger aussi une coupure pendant le partitionnement, utiliser --state-dir sur une clé USB.')
         token = f'INSTALLER {disk["name"]}' if not parts else f'FORMATER {parts[0]}'
@@ -630,21 +693,14 @@ def main():
     names = progress_steps(snapshot_mode, deferred)
     UI.set_steps(len(names), len(set(names) & set(session.data['completed'])))
     UI.header(3, 'Installation du système de base et des logiciels')
+    # pacstrap est non interactif par défaut (ne pas activer son option -i).
     execute_step(session, 'base', 'Installer les paquets', lambda: run('pacstrap', '-K', TARGET, *official))
     UI.header(4, 'Compte, démarrage et configuration du système')
     configure(user, hostname, keymap, timezone, locale, report, root, disk, selected, deferred,
-              login_shell, boot, session, snapshot_mode)
+              login_shell, boot, session, snapshot_mode, credentials)
     UI.header(5, 'Ton bureau, snapshots et compléments')
     if deferred:
-        def options():
-            if ask('Installer maintenant les compléments AUR ? oui/non', 'oui', r'oui|non') == 'non':
-                return
-            try:
-                run_options(user, deferred)
-            except subprocess.CalledProcessError:
-                if UI.choose('Compléments en échec', [('Arrêter et conserver la reprise', 'abort'), ('Reporter à arch-options après démarrage', 'later')]) == 'abort':
-                    raise RuntimeError('Compléments interrompus ; état de reprise conservé.')
-        execute_step(session, 'options', 'Logiciels supplémentaires AUR', options)
+        execute_step(session, 'options', 'Logiciels supplémentaires AUR', lambda: run_options(user, deferred))
     if snapshot_mode != 'none':
         execute_step(session, 'initial-snapshot', 'Créer le snapshot initial', lambda: snapshots.initial(chroot))
     if session.done('verify'):
@@ -663,7 +719,7 @@ def main():
     UI.progress('Installation terminée')
     shutil.copy2(UI.log, TARGET / 'var/log/arch-personnel-install.log')
     UI.box(f'Connexion : {user}\nBureau : start-desktop · compléments : arch-options\nÉtat durable : /{RELATIVE}\nJournal : /var/log/arch-personnel-install.log')
-    if ask('Démonter et redémarrer maintenant ? oui/non', 'non', r'oui|non') == 'oui':
+    if settings.get('reboot', False):
         run('umount', '-R', TARGET)
         run('reboot')
     else:
@@ -693,7 +749,9 @@ def questionnaire(report):
     snapshot_mode = UI.choose('Snapshots Btrfs avec Snapper', [('Aucun snapshot', 'none'), ('Manuels et snapshot initial', 'manual'), ('Automatiques : avant/après pacman et chronologie', 'auto')], default='none')
     if snapshot_mode != 'none':
         UI.box('Snapshots du système uniquement ; /home et /boot sur ESP ne sont pas couverts.\nPas de démarrage automatique depuis un snapshot.')
-    return user, hostname, keymap, locale, timezone, selected, login_shell, boot, snapshot_mode
+    reboot = UI.choose('À la fin de l’installation', [('Rester sur le live', 'stay'),
+                       ('Démonter et redémarrer automatiquement', 'reboot')], default='stay') == 'reboot'
+    return user, hostname, keymap, locale, timezone, selected, login_shell, boot, snapshot_mode, reboot
 
 
 if __name__ == '__main__':

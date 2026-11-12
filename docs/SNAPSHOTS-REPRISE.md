@@ -62,7 +62,11 @@ UUID et l’identité correspondent. Une cible différente est refusée.
 Les étapes terminées sont conservées. Un échec de pacstrap reprend cette phase ;
 une interruption de configuration reprend les opérations restantes. Un compte ou
 un lien de configuration déjà créé par une étape partiellement appliquée est
-reconnu. Le mot de passe est redemandé uniquement si son étape n’a pas été validée.
+reconnu. Les mots de passe sont demandés au début de la reprise uniquement pour
+les comptes dont l’étape n’a pas été validée. Sur une ancienne session, le compte
+root précédemment verrouillé reçoit son propre mot de passe ; celui de
+l’utilisateur déjà configuré est conservé. L’installation AUR reprise ne demande
+pas le mot de passe sudo.
 
 ## Protéger aussi les réponses avant le premier montage
 
@@ -105,9 +109,8 @@ Références : [Snapper](https://man.archlinux.org/man/snapper.8.en),
 
 ## Erreur « Permission denied » sur postinstall.py
 
-La version corrigée répare aussi une cible déjà déployée : choisir « Arrêter et
-conserver la reprise », récupérer la version actuelle de l’installateur, puis
-choisir la reprise. Le socle et les configurations terminés restent conservés.
+La version corrigée répare aussi une cible déjà déployée : après l’arrêt sur
+erreur, récupérer la version actuelle de l’installateur, puis choisir la reprise. Le socle et les configurations terminés restent conservés.
 
 Pour dépanner immédiatement depuis la console root du live, après avoir quitté
 le menu en conservant la reprise, les fichiers de la cible sont accessibles ici :

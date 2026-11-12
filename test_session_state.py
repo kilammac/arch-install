@@ -52,8 +52,9 @@ class SessionTests(unittest.TestCase):
 
     def test_secrets_are_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
-            with self.assertRaises(ValueError):
-                Session.create({'password': 'x'}, Path(directory) / 'state.json')
+            for key in ['password', 'user_password', 'root_password', 'credentials']:
+                with self.subTest(key=key), self.assertRaises(ValueError):
+                    Session.create({key: 'x'}, Path(directory) / 'state.json')
 
     def test_interrupted_format_is_never_restarted(self):
         with tempfile.TemporaryDirectory() as directory:
