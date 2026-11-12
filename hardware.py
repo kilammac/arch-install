@@ -69,7 +69,8 @@ def detect(sysroot=Path('/sys'), procroot=Path('/proc'), machine=None, probe_vm=
         warnings.append('Virtualisation indéterminée : choix du microcode à revalider sur le live.')
     vendors = {gpu['vendor_id'] for gpu in gpus}
     if '0x1002' in vendors:
-        packages.update(['vulkan-radeon', 'libva-mesa-driver'])
+        # VA-API AMD est fourni par mesa ; l'ancien nom n'est plus un paquet.
+        packages.add('vulkan-radeon')
     if '0x8086' in vendors:
         packages.add('vulkan-intel')
         warnings.append('Décodage Intel : génération à vérifier avant choix du pilote VA-API.')

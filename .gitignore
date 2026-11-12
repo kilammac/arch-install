@@ -3,6 +3,8 @@
 !/.gitignore
 !/README.md
 !/install.sh
+!/install/
+!/install/install.sh
 !/*.py
 !/catalogue/
 !/catalogue/choix.json

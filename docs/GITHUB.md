@@ -5,6 +5,16 @@ conformément au choix de son propriétaire. Il contient la copie nettoyée de
 l’installateur et des configurations. La liste de logiciels, le style du bureau
 et ses fonctions sont donc visibles publiquement.
 
+## Lancement direct, comme dans l’installateur de référence
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/kilammac/arch-install/main/install/install.sh -o install.sh
+bash install.sh
+```
+
+Ce fichier télécharge le dépôt complet et lance l’interface Gum. Il n’installe
+aucun système sans confirmation du disque cible.
+
 ## Depuis le live ISO Arch connecté à Internet
 
 ```bash
@@ -23,8 +33,9 @@ puis une confirmation précise avant formatage. Le système n’est pas chiffré
 
 Une fois une version testée avec succès sur disque jetable, créer un tag pour
 reproduire cette version via `git clone --depth 1 --branch NOM_DU_TAG URL`.
-Aucun cycle complet d’installation/redémarrage n’a encore été validé sur une
-nouvelle machine ; les contrôles effectués sont détaillés dans VALIDATION.md.
+Une installation et un redémarrage BIOS/LTS ont été validés dans QEMU/KVM.
+La session graphique complète et UEFI restent à valider ; les contrôles sont
+détaillés dans VALIDATION.md.
 
 ## Avant de publier de nouvelles modifications
 

@@ -3,7 +3,21 @@
 Installateur Arch Linux x86_64 depuis le live ISO officiel, avec détection du
 matériel et sélection des logiciels et configurations. Système non chiffré.
 
-Sur un live connecté à Internet, pour ce dépôt public :
+Lancement direct depuis le live, sur le même principe que l’installateur de
+[bboysidou](https://github.com/bboysidou/dotfile_hyperland) :
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/kilammac/arch-install/main/install/install.sh -o install.sh
+bash install.sh
+```
+
+Le lanceur récupère le dossier complet, prépare Gum puis ouvre le parcours guidé :
+identité et langue, familles logicielles, réglage fin des paquets, configurations,
+shell, chargeur, disque et résumé avant confirmation. Les opérations affichent
+leur progression et conservent un journal dans `/run/arch-personnel/install.log`.
+Dans Gum : flèches pour naviguer, `x` pour cocher et Entrée pour valider.
+
+Depuis un clone local :
 
 ```bash
 pacman -Sy --needed git
@@ -13,6 +27,15 @@ cd arch-install
 bash install.sh --check
 bash install.sh
 ```
+
+Pour essayer uniquement les menus sur un système existant (sans installation,
+sans montage, sans écriture de plan), avec Gum et Python déjà disponibles :
+
+```bash
+bash install.sh --preview
+```
+
+`--dry-run` est un alias de cet aperçu. Il ne simule pas une installation complète.
 
 Les scripts doivent provenir de ton dépôt de confiance. Pour une version stable,
 cloner un tag de release que tu as testé plutôt qu’une branche changeante.
@@ -40,5 +63,21 @@ compléments AUR avec le compte ordinaire.
 - [Audit et limites](docs/AUDIT.md)
 - [Vérification de l’installateur](docs/VALIDATION.md)
 
-Les tests automatisés et le déploiement temporaire passent ; aucun cycle complet
-d’installation/redémarrage n’a encore été validé sur une nouvelle machine.
+19 tests automatisés passent. Une installation et un redémarrage BIOS/LTS ont
+réussi dans QEMU/KVM sur disque jetable. La session graphique complète et le
+parcours UEFI restent à valider ; voir les limites dans VALIDATION.md.
+
+## Correction AMD
+
+L’ancien nom `libva-mesa-driver` ne doit pas être exigé comme paquet séparé :
+la pile AMD utilise `mesa` et `vulkan-radeon`. L’installateur corrige aussi les
+anciens aperçus qui contiendraient encore ce nom. La vérification des paquets
+reste effectuée avant toute modification des partitions.
+
+## Différences avec la référence
+
+L’interface utilise Gum et reprend le parcours par étapes et familles de logiciels.
+Le moteur Python de détection/déploiement est conservé avec ses validations.
+Les scénarios disque sont effacement automatique ou partitions déjà préparées ;
+la création automatique dans l’espace non partitionné (alongside) et Limine ne
+sont pas proposés. Il n’y a pas de reprise automatique du formatage après erreur.

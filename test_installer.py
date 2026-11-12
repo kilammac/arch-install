@@ -11,6 +11,14 @@ from hardware import prepare_catalogue
 
 
 class InstallerTests(unittest.TestCase):
+    def test_live_pacman_configuration_is_idempotent(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'pacman.conf'
+            path.write_text('[options]\n#ParallelDownloads = 5\n[core]\nInclude = /etc/pacman.d/mirrorlist\n#[multilib]\n#Include = /etc/pacman.d/mirrorlist\n')
+            self.assertTrue(installer.prepare_live_pacman(path))
+            self.assertFalse(installer.prepare_live_pacman(path))
+            self.assertIn('ParallelDownloads = 5', path.read_text())
+            self.assertEqual(path.read_text().count('\n[multilib]\n'), 1)
     def test_live_guard_before_commands(self):
         with patch('installer.os.geteuid', return_value=1000), patch('installer.run') as run:
             with self.assertRaises(RuntimeError):
@@ -61,6 +69,21 @@ class InstallerTests(unittest.TestCase):
             official, deferred = installer.graphics(report)
             self.assertNotIn('nvidia-open-dkms', official)
             self.assertIn('nvidia-580xx-dkms', deferred)
+
+    def test_amd_old_vaapi_name_resolves_to_mesa(self):
+        available = '\n'.join('base base-devel linux linux-headers linux-lts linux-lts-headers linux-firmware btrfs-progs sudo networkmanager nano python git curl rsync pciutils usbutils dosfstools zram-generator mesa vulkan-radeon efibootmgr'.split())
+        report = {'form_factor': 'vm', 'virtualization': 'kvm', 'gpus': [], 'uefi': True}
+        with patch('installer.graphics', return_value=({'mesa', 'libva-mesa-driver', 'vulkan-radeon'}, set())), patch('installer.subprocess.check_output', return_value=available):
+            official, deferred = installer.package_plan([], report)
+        self.assertIn('mesa', official)
+        self.assertNotIn('libva-mesa-driver', official)
+        self.assertFalse(deferred)
+
+    def test_preview_never_calls_installation(self):
+        with patch('sys.argv', ['installer.py', '--preview']), patch('installer.questionnaire'), patch('installer.live_required') as live, patch('installer.run') as run, patch('installer.UI.box'), patch('installer.UI.banner'), patch('installer.UI.header'):
+            installer.main()
+            live.assert_not_called()
+            run.assert_not_called()
 
     def test_real_payload_deployment_in_temporary_directory(self):
         report = {'asus_tools_available_as_option': False}

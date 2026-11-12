@@ -37,6 +37,8 @@ class DetectionTests(unittest.TestCase):
         self.assertEqual(len(report['gpus']), 2)
         self.assertEqual(report['form_factor'], 'laptop')
         self.assertIn('amd-ucode', report['packages_suggested'])
+        self.assertIn('mesa', report['packages_suggested'])
+        self.assertNotIn('libva-mesa-driver', report['packages_suggested'])
         self.assertTrue(report['asus_tools_available_as_option'])
 
     def test_intel_nvidia(self):

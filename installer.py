@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Installateur live : étapes explicites, sans reprise du partitionnement."""
 import argparse
-import curses
 import hashlib
 import json
 import os
@@ -13,22 +12,22 @@ import tempfile
 from pathlib import Path
 
 from hardware import detect, prepare_catalogue
-from selection import ROOT, menu
 from deploy import deploy, config_packages
+from tui import UI
 
+ROOT = Path(__file__).resolve().parent
 TARGET = Path('/mnt/arch-personnel')
 
 
-def run(*args, capture=False):
-    print('+', ' '.join(str(a) for a in args), flush=True)
-    result = subprocess.run([str(a) for a in args], check=True, text=True,
-                            stdout=subprocess.PIPE if capture else None)
-    return result.stdout.strip() if capture else ''
+def run(*args, capture=False, interactive=False):
+    return UI.command([str(a) for a in args], capture=capture, interactive=interactive)
 
 
 def ask(prompt, default='', pattern=None):
+    if pattern == r'oui|non':
+        return UI.choose(prompt, [('Oui', 'oui'), ('Non', 'non')], default=default)
     while True:
-        value = input(f'{prompt}' + (f' [{default}]' if default else '') + ' : ').strip() or default
+        value = UI.input(prompt, default)
         if value and (pattern is None or re.fullmatch(pattern, value)):
             return value
         print('Valeur invalide.')
@@ -68,6 +67,19 @@ def live_required():
             raise RuntimeError('Désactiver Secure Boot pour cette installation.')
 
 
+def prepare_live_pacman(path=Path('/etc/pacman.conf')):
+    original = path.read_text()
+    text = re.sub(r'(?m)^\s*#?\s*ParallelDownloads\s*=.*$', 'ParallelDownloads = 5', original)
+    if not re.search(r'^ParallelDownloads\s*=', text, re.M):
+        text = re.sub(r'(?m)^\[options\]\s*$', '[options]\nParallelDownloads = 5', text, count=1)
+    if not re.search(r'^\[multilib\]', text, re.M):
+        text += '\n[multilib]\nInclude = /etc/pacman.d/mirrorlist\n'
+    if text != original:
+        path.write_text(text)
+        return True
+    return False
+
+
 def blocks():
     result = subprocess.check_output(['lsblk', '--json', '--bytes', '--paths',
         '--output', 'NAME,TYPE,SIZE,MODEL,SERIAL,RO,RM,MOUNTPOINTS,FSTYPE,MAJ:MIN'], text=True)
@@ -100,10 +112,8 @@ def choose_disk():
               '(amovible)' if disk.get('rm') else '')
     if not disks:
         raise RuntimeError('Aucun disque admissible. Démonter la cible si nécessaire ; ne pas démonter la clé contenant cet outil.')
-    number = int(ask('Numéro du disque cible', pattern=r'[1-9][0-9]*'))
-    if number > len(disks):
-        raise RuntimeError('Numéro de disque inconnu.')
-    return disks[number - 1]
+    path = UI.choose('Installer sur quel disque ?', [(f'{d["name"]} · {d.get("model") or "Disque"} · {int(d["size"])/1024**3:.1f} Gio', d['name']) for d in disks])
+    return next(d for d in disks if d['name'] == path)
 
 
 def revalidate(disk):
@@ -139,9 +149,11 @@ def graphics(report):
     return packages, extra
 
 
-def package_plan(selected, report):
+def package_plan(selected, report, boot='systemd-boot'):
     fixed = set('base base-devel linux linux-headers linux-lts linux-lts-headers linux-firmware btrfs-progs sudo networkmanager nano python git curl rsync pciutils usbutils dosfstools zram-generator'.split())
     hw, extra = graphics(report)
+    # Compatibilité avec d'anciens aperçus matériels et anciennes réponses.
+    hw = {'mesa' if p == 'libva-mesa-driver' else p for p in hw}
     requested = {r['name'] for r in selected if r['kind'] == 'paquet'}
     required = fixed | config_packages(selected) | hw
     if report['form_factor'] == 'laptop' and report['virtualization'] == 'none':
@@ -155,7 +167,10 @@ def package_plan(selected, report):
             required.update(['lib32-mesa', 'lib32-vulkan-intel'])
         if 'nvidia-utils' in hw:
             required.add('lib32-nvidia-utils')
-    required.add('efibootmgr' if report['uefi'] else 'grub')
+    if report['uefi']:
+        required.add('efibootmgr')
+    if boot == 'grub' or not report['uefi']:
+        required.add('grub')
     available = set(subprocess.check_output(['pacman', '-Slq', 'core', 'extra', 'multilib'], text=True).splitlines())
     missing = required - available
     if missing:
@@ -243,10 +258,11 @@ def mount_root(root, esp):
 
 
 def chroot(*args, capture=False):
-    return run('arch-chroot', TARGET, *args, capture=capture)
+    return run('arch-chroot', TARGET, *args, capture=capture,
+               interactive=bool(args and args[0] in {'passwd', 'runuser'}))
 
 
-def configure(user, hostname, keymap, timezone, locale, report, root, disk, selected, deferred, login_shell='bash'):
+def configure(user, hostname, keymap, timezone, locale, report, root, disk, selected, deferred, login_shell='bash', boot='systemd-boot'):
     fstab = run('genfstab', '-U', TARGET, capture=True)
     write('etc/fstab', fstab + '\n')
     write('etc/hostname', hostname + '\n')
@@ -267,7 +283,7 @@ def configure(user, hostname, keymap, timezone, locale, report, root, disk, sele
     write('etc/systemd/zram-generator.conf', '[zram0]\nzram-size = min(ram / 2, 8192)\ncompression-algorithm = zstd\n')
     write('etc/mkinitcpio.conf.d/10-personnel.conf', 'HOOKS=(base systemd autodetect microcode modconf kms keyboard sd-vconsole block filesystems fsck)\n')
     chroot('mkinitcpio', '-P')
-    if report['uefi']:
+    if report['uefi'] and boot == 'systemd-boot':
         # L'entrée amovible permet aussi le démarrage si le firmware refuse la NVRAM.
         try:
             chroot('bootctl', '--esp-path=/boot', 'install')
@@ -280,7 +296,10 @@ def configure(user, hostname, keymap, timezone, locale, report, root, disk, sele
             write('boot/loader/entries/' + filename,
                   f'title {title}\nlinux /vmlinuz-{kernel}\ninitrd /initramfs-{kernel}.img\noptions root=UUID={uuid} rootflags=subvol=@ rw\n')
     else:
-        chroot('grub-install', '--target=i386-pc', disk['name'])
+        if report['uefi']:
+            chroot('grub-install', '--target=x86_64-efi', '--efi-directory=/boot', '--bootloader-id=Arch')
+        else:
+            chroot('grub-install', '--target=i386-pc', disk['name'])
         chroot('grub-mkconfig', '-o', '/boot/grub/grub.cfg')
     chroot('systemctl', 'enable', 'NetworkManager.service', 'systemd-timesyncd.service')
     installed = set(chroot('pacman', '-Qq', capture=True).splitlines())
@@ -308,96 +327,131 @@ def configure(user, hostname, keymap, timezone, locale, report, root, disk, sele
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--check', action='store_true', help='Vérifier les fichiers sans installation')
+    parser.add_argument('--preview', '--dry-run', action='store_true', help='Essayer les menus sans installation ni écriture')
     args = parser.parse_args()
     verify_bundle()
     if args.check:
         print('Installateur et configurations présents. Aucune commande de disque exécutée.')
         return
+    if args.preview:
+        UI.banner('APERÇU · aucun paquet installé · aucun disque modifié')
+        UI.header(1, 'Ton système')
+        questionnaire(detect())
+        UI.header(2, 'Disque et résumé — exemple de VM')
+        UI.box('/dev/vda · disque EXEMPLE\nBtrfs · Linux + LTS\nAucune commande d’installation exécutée.')
+        return
     live_required()
-    print('ARCH PERSONNEL — installation depuis le live, sans chiffrement. Ctrl+C annule.')
-    print('Connexion réseau requise ; pour le Wi-Fi, utiliser iwctl avant de démarrer.')
-    run('curl', '-fIsS', '--max-time', '20', 'https://archlinux.org')
+    logdir = Path('/run/arch-personnel')
+    logdir.mkdir(mode=0o700, exist_ok=True)
+    UI.log = logdir / 'install.log'
+    UI.log.touch(mode=0o600)
+    UI.banner()
+    UI.header(0, 'Vérifications du live')
+    while True:
+        try:
+            run('curl', '-fsS', '--max-time', '20', '-o', '/dev/null', 'https://archlinux.org')
+            break
+        except subprocess.CalledProcessError:
+            action = UI.choose('Pas de connexion Internet', [('Configurer le Wi-Fi avec iwctl', 'wifi'), ('Réessayer', 'retry'), ('Annuler', 'cancel')])
+            if action == 'wifi':
+                run('iwctl', interactive=True)
+            elif action == 'cancel':
+                raise RuntimeError('Connexion Internet non disponible ; relancer après connexion.')
     run('timedatectl', 'set-ntp', 'true')
+    prepare_live_pacman()
     # Ces dépendances sont installées uniquement dans le live après les garde-fous.
-    run('pacman', '-Sy', '--needed', '--noconfirm', 'gptfdisk', 'parted', 'btrfs-progs', 'dosfstools', 'pciutils')
+    run('pacman', '-Sy', '--needed', '--noconfirm', 'gum', 'gptfdisk', 'parted', 'btrfs-progs', 'dosfstools', 'pciutils')
     report = detect()
     if not report['supported_architecture']:
         raise RuntimeError('Architecture non prise en charge.')
-    print(json.dumps(report, ensure_ascii=False, indent=2))
-    user = ask('Nom du compte', 'utilisateur', r'[a-z_][a-z0-9_-]{0,30}')
-    if user in {'root', 'nobody'}:
-        raise RuntimeError('Nom de compte réservé.')
-    hostname = ask('Nom de la machine', 'archlinux', r'[a-z0-9][a-z0-9-]{0,61}[a-z0-9]|[a-z0-9]')
-    keymap = ask('Clavier console et Hyprland : us ou fr', 'us', r'us|fr')
-    locale = ask('Langue : fr_FR.UTF-8 ou en_US.UTF-8', 'fr_FR.UTF-8', r'fr_FR\.UTF-8|en_US\.UTF-8')
-    timezone = ask('Fuseau horaire', 'Etc/UTC', r'[A-Za-z_+-]+/[A-Za-z0-9_+/-]+')
-    zone = (Path('/usr/share/zoneinfo') / timezone).resolve()
-    if not zone.is_relative_to('/usr/share/zoneinfo') or not zone.is_file():
-        raise RuntimeError('Fuseau horaire inexistant.')
-    rows = prepare_catalogue(json.loads((ROOT / 'catalogue/choix.json').read_text()), report)
-    selected_ids = {r['id'] for r in rows if r['default'] and not r['locked']}
-    if not curses.wrapper(menu, rows, selected_ids):
-        print('Installation annulée.')
-        return
-    selected = [r for r in rows if r['id'] in selected_ids and not r['locked']]
-    if any(r['id'] == 'cfg:quickshell' for r in selected) and not any(r['id'] == 'cfg:hypr' for r in selected):
-        print('Ton Quickshell nécessite le profil Hyprland personnel : configuration ajoutée.')
-        selected.append(next(r for r in rows if r['id'] == 'cfg:hypr'))
-    login_shell = ask('Shell de connexion : bash/fish', 'fish', r'bash|fish')
-    if login_shell == 'fish' and not any(r['name'] == 'fish' for r in selected):
-        selected.append(next(r for r in rows if r['name'] == 'fish'))
-    # L'ISO officiel fournit core/extra. Activer multilib pour les options 32 bits.
-    pacman_conf = Path('/etc/pacman.conf')
-    if not re.search(r'^\[multilib\]', pacman_conf.read_text(), re.M):
-        with pacman_conf.open('a') as stream:
-            stream.write('\n[multilib]\nInclude = /etc/pacman.d/mirrorlist\n')
-        run('pacman', '-Sy')
-    official, deferred = package_plan(selected, report)
+    vendors = {'0x1002': 'AMD Radeon', '0x8086': 'Intel', '0x10de': 'NVIDIA', '0x1af4': 'VirtIO', '0x15ad': 'VMware', '0x1234': 'QEMU'}
+    cards = '\n'.join(f'GPU : {vendors.get(g["vendor_id"], g["vendor_id"])} · {g["pci"]} · pilote {g["driver"] or "non chargé"}' for g in report['gpus'])
+    UI.box(f'{report["manufacturer"] or "Machine"} · {report["model"] or "modèle inconnu"}\nCPU : {", ".join(report["cpu_vendors"])}\n{cards}\nEnvironnement : {report["virtualization"]}\nDémarrage : {"UEFI" if report["uefi"] else "BIOS"}')
+    UI.header(1, 'Ton système et tes logiciels')
+    user, hostname, keymap, locale, timezone, selected, login_shell, boot = questionnaire(report)
+    official, deferred = package_plan(selected, report, boot)
+    UI.header(2, 'Disque et confirmation')
     disk = choose_disk()
-    mode = ask('Mode : effacer / partitions (partitions déjà préparées)', 'partitions', r'effacer|partitions')
+    options = [('Effacer le disque et créer les partitions automatiquement', 'effacer')]
+    if report['uefi']:
+        options.append(('Utiliser des partitions déjà préparées (racine formatée)', 'partitions'))
+    mode = UI.choose('Comment installer Arch ?', options)
     parts = manual_parts(disk, report['uefi']) if mode == 'partitions' else None
-    print('\nCIBLE :', disk['name'], disk.get('model'), disk['size'], 'octets')
-    print('EFFACEMENT COMPLET DU DISQUE' if not parts else f'FORMATAGE de {parts[0]} ; ESP {parts[1]} conservée mais fichiers de démarrage ajoutés.')
+    UI.box(f'Compte : {user} · machine : {hostname}\nClavier : {keymap} · langue : {locale} · fuseau : {timezone}\nShell : {login_shell} · chargeur : {boot}\nCible : {disk["name"]} · {disk.get("model") or "Disque"} · {int(disk["size"])/1024**3:.1f} Gio\n' +
+           ('EFFACEMENT COMPLET DU DISQUE' if not parts else f'FORMATAGE : {parts[0]} · ESP conservée : {parts[1]}') +
+           f'\n{len(official)} paquets officiels · {len(deferred)} compléments\nSystème non chiffré')
     print('Configurations :', ', '.join(r['name'] for r in selected if r['kind'] == 'configuration'))
     if 'snapper' in official:
         print('Snapper sera installé ; aucun rollback automatique de /boot n’est configuré.')
     token = f'INSTALLER {disk["name"]}' if not parts else f'FORMATER {parts[0]}'
-    if input(f'Taper exactement « {token} » pour continuer : ') != token:
+    if UI.input(f'Confirmation : taper exactement {token}') != token:
         print('Annulé avant toute modification du disque cible.')
         return
     revalidate(disk)
-    # Vérifier le paquet au complet avant d'ouvrir la phase destructive.
     verify_bundle()
     root, esp = parts if parts else partition(disk, report['uefi'])
     mount_root(root, esp)
+    UI.header(3, 'Installation du système de base et des logiciels')
     run('pacstrap', '-K', TARGET, *official)
-    configure(user, hostname, keymap, timezone, locale, report, root, disk, selected, deferred, login_shell)
+    UI.header(4, 'Compte, démarrage et configuration du système')
+    configure(user, hostname, keymap, timezone, locale, report, root, disk, selected, deferred, login_shell, boot)
     write('var/log/arch-personnel-installation.json', json.dumps({
         'hardware': report, 'user': user, 'hostname': hostname,
         'disk': disk['name'], 'mode': mode, 'encryption': False,
         'packages': official, 'deferred': deferred,
         'configurations': [r['id'] for r in selected if r['kind'] == 'configuration'],
     }, ensure_ascii=False, indent=2) + '\n')
+    UI.header(5, 'Ton bureau et ses compléments')
     if deferred and ask('Installer maintenant les compléments AUR ? oui/non', 'oui', r'oui|non') == 'oui':
         try:
             chroot('runuser', '-u', user, '--', 'env', f'HOME=/home/{user}',
                    'python', '/opt/arch-personnel/postinstall.py')
         except subprocess.CalledProcessError:
             print('Certains compléments ont échoué ou ont été annulés ; reprendre avec arch-options après connexion.')
-    print('\nInstallation terminée. Connexion après reboot :', user)
-    print('Démarrer le bureau : start-desktop')
-    print('Installer les options AUR après connexion : arch-options')
-    print('Vérifier le système monté dans', TARGET, 'avant de redémarrer.')
-    if ask('Démonter maintenant ? oui/non', 'oui', r'oui|non') == 'oui':
+    UI.header(6, 'Installation terminée')
+    if UI.log:
+        shutil.copy2(UI.log, TARGET / 'var/log/arch-personnel-install.log')
+    UI.box(f'Connexion : {user}\nLe bureau démarre sur tty1. Commande manuelle : start-desktop\nCompléments : arch-options\nJournal : /var/log/arch-personnel-install.log')
+    if ask('Démonter et redémarrer maintenant ? oui/non', 'non', r'oui|non') == 'oui':
         run('umount', '-R', TARGET)
-    print('Tu peux redémarrer avec reboot, puis retirer la clé.')
+        run('reboot')
+    else:
+        print('Cible montée dans', TARGET, '· démonter avant de redémarrer.')
+
+
+def questionnaire(report):
+    user = ask('Nom du compte', 'utilisateur', r'[a-z_][a-z0-9_-]{0,30}')
+    if user in {'root', 'nobody'}:
+        raise RuntimeError('Nom de compte réservé.')
+    hostname = ask('Nom de la machine', 'archlinux', r'[a-z0-9][a-z0-9-]{0,61}[a-z0-9]|[a-z0-9]')
+    keymap = UI.choose('Clavier de la console et du bureau', [('US — QWERTY', 'us'), ('FR — AZERTY', 'fr')], default='us')
+    locale = UI.choose('Langue du système', [('Français', 'fr_FR.UTF-8'), ('English', 'en_US.UTF-8')], default='fr_FR.UTF-8')
+    timezone = ask('Fuseau horaire', 'Etc/UTC', r'[A-Za-z_+-]+/[A-Za-z0-9_+/-]+')
+    zone = (Path('/usr/share/zoneinfo') / timezone).resolve()
+    if not zone.is_relative_to('/usr/share/zoneinfo') or not zone.is_file():
+        raise RuntimeError('Fuseau horaire inexistant.')
+    rows = prepare_catalogue(json.loads((ROOT / 'catalogue/choix.json').read_text()), report)
+    selected = UI.selections(rows)
+    if any(r['id'] == 'cfg:quickshell' for r in selected) and not any(r['id'] == 'cfg:hypr' for r in selected):
+        print('Ton Quickshell nécessite le profil Hyprland personnel : configuration ajoutée.')
+        selected.append(next(r for r in rows if r['id'] == 'cfg:hypr'))
+    login_shell = UI.choose('Shell de connexion', [('Fish', 'fish'), ('Bash', 'bash')], default='fish')
+    if login_shell == 'fish' and not any(r['name'] == 'fish' for r in selected):
+        selected.append(next(r for r in rows if r['name'] == 'fish'))
+    boot = UI.choose('Chargeur de démarrage', [('systemd-boot (conseillé)', 'systemd-boot'), ('GRUB', 'grub')]) if report['uefi'] else 'grub'
+    return user, hostname, keymap, locale, timezone, selected, login_shell, boot
 
 
 if __name__ == '__main__':
     try:
         main()
     except (RuntimeError, ValueError, OSError, subprocess.CalledProcessError) as error:
-        print(f'\nARRÊT : {error}\nAucune reprise automatique. Inspecter les montages avant de relancer.', file=sys.stderr)
+        message = str(error)
+        if isinstance(error, subprocess.CalledProcessError):
+            message = f'La commande {error.cmd[0]} a échoué (code {error.returncode}).'
+        print(f'\nARRÊT : {message}\nAucune reprise automatique. Inspecter les montages avant de relancer.', file=sys.stderr)
+        if UI.log:
+            print(f'Journal complet : {UI.log}', file=sys.stderr)
         sys.exit(1)
     except (KeyboardInterrupt, EOFError):
         print('\nInterrompu. Les étapes déjà appliquées ne sont pas annulées ; aucun reformatage automatique.', file=sys.stderr)
