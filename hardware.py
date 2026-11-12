@@ -4,6 +4,7 @@ import json
 import platform
 import subprocess
 from pathlib import Path
+from postinstall import EXCLUDED_PACKAGES
 
 
 def read(path):
@@ -112,6 +113,9 @@ def prepare_catalogue(rows, report):
     result = []
     for row in rows:
         row = dict(row)
+        if row['kind'] == 'paquet' and row['name'] in EXCLUDED_PACKAGES:
+            row.update(default=False, locked=True, group='99-exclus',
+                       note='Exclu à la demande de l’utilisateur ; ignoré aussi lors des reprises.')
         if row['kind'] == 'paquet' and row['name'] in {'snapper', 'snap-pac'}:
             row.update(default=False, locked=True, group='00-snapshots',
                        note='Configuré par le choix Snapshots du questionnaire.')

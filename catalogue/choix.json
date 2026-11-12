@@ -293,11 +293,11 @@
     "id": "pkg:dsearch-bin",
     "kind": "paquet",
     "name": "dsearch-bin",
-    "group": "02-bureau-hyprland",
+    "group": "99-exclus",
     "source": "hors-depots-configures",
-    "default": true,
-    "locked": false,
-    "note": "Origine exacte à vérifier sur le live ISO"
+    "default": false,
+    "locked": true,
+    "note": "Exclu à la demande de l’utilisateur ; ignoré aussi lors des reprises."
   },
   {
     "id": "pkg:fuzzel",
@@ -773,11 +773,11 @@
     "id": "pkg:flea-arch-git",
     "kind": "paquet",
     "name": "flea-arch-git",
-    "group": "03-terminal-editeurs",
+    "group": "99-exclus",
     "source": "hors-depots-configures",
-    "default": true,
-    "locked": false,
-    "note": "Origine exacte à vérifier sur le live ISO"
+    "default": false,
+    "locked": true,
+    "note": "Exclu à la demande de l’utilisateur ; ignoré aussi lors des reprises."
   },
   {
     "id": "pkg:foot",

@@ -17,6 +17,7 @@ from tui import UI
 from session_state import Session, RELATIVE
 from recovery import SUBVOLS, disk_identity, uuid_of, resolve_layout, mount_existing, discover
 import snapshots
+from postinstall import EXCLUDED_PACKAGES, normalize_packages
 
 ROOT = Path(__file__).resolve().parent
 TARGET = Path('/mnt/arch-personnel')
@@ -158,6 +159,7 @@ def package_plan(selected, report, boot='systemd-boot', snapshot_mode='none'):
     # Compatibilité avec d'anciens aperçus matériels et anciennes réponses.
     hw = {'mesa' if p == 'libva-mesa-driver' else p for p in hw}
     requested = {r['name'] for r in selected if r['kind'] == 'paquet'}
+    requested -= EXCLUDED_PACKAGES
     required = fixed | config_packages(selected) | hw
     required |= snapshots.packages(snapshot_mode)
     if report['form_factor'] == 'laptop' and report['virtualization'] == 'none':
@@ -276,8 +278,17 @@ def options_runtime_permissions(directory):
         path.chmod(0o644)
 
 
-def prepare_options_runtime(user):
+def prepare_options_runtime(user, deferred=None):
     directory = TARGET / 'opt/arch-personnel'
+    script = directory / 'postinstall.py'
+    options = directory / 'options-differees.json'
+    if directory.is_symlink() or not directory.is_dir() or script.is_symlink() or options.is_symlink():
+        raise RuntimeError('Répertoire ou liens inattendus pour les compléments.')
+    # Une reprise peut sauter deploy : actualiser aussi son ancien programme autonome.
+    if (ROOT / 'postinstall.py').resolve() != script.resolve():
+        shutil.copyfile(ROOT / 'postinstall.py', script)
+    packages = normalize_packages(deferred if deferred is not None else json.loads(options.read_text()))
+    options.write_text(json.dumps(packages, ensure_ascii=False, indent=2) + '\n')
     options_runtime_permissions(directory)
     chroot('chown', 'root:root', '/opt/arch-personnel', '/opt/arch-personnel/postinstall.py',
            '/opt/arch-personnel/options-differees.json')
@@ -289,8 +300,8 @@ def prepare_options_runtime(user):
            f'LOGNAME={user}', 'python', '-I', '-c', probe)
 
 
-def run_options(user):
-    prepare_options_runtime(user)
+def run_options(user, deferred=None):
+    prepare_options_runtime(user, deferred)
     chroot('runuser', '-u', user, '--', 'env', f'HOME=/home/{user}', f'USER={user}',
            f'LOGNAME={user}', 'python', '-I', '/opt/arch-personnel/postinstall.py')
 
@@ -377,7 +388,7 @@ def configure(user, hostname, keymap, timezone, locale, report, root, disk, sele
         shutil.copytree(ROOT, install_dir, ignore=shutil.ignore_patterns('.git', '__pycache__', '*.tar.gz'), dirs_exist_ok=True)
         (install_dir / 'options-differees.json').write_text(json.dumps(deferred, ensure_ascii=False, indent=2) + '\n')
         write('usr/local/bin/arch-options', '#!/bin/sh\nexec python /opt/arch-personnel/postinstall.py "$@"\n', 0o755)
-        prepare_options_runtime(user)
+        prepare_options_runtime(user, deferred)
         chroot('chown', '-R', f'{user}:{user}', f'/home/{user}')
     execute_step(session, 'deploy', 'Déployer ta configuration et ton bureau', desktop)
     if snapshot_mode != 'none':
@@ -417,6 +428,9 @@ def validate_settings(settings, report):
         raise RuntimeError('Les configurations ont changé : reprendre avec le même paquet de configuration.')
     rows = prepare_catalogue(json.loads((ROOT / 'catalogue/choix.json').read_text()), report)
     ids = settings.get('selected_ids')
+    if isinstance(ids, list) and all(isinstance(item, str) for item in ids):
+        ids = [item for item in ids if item not in {'pkg:' + p for p in EXCLUDED_PACKAGES}]
+        settings['selected_ids'] = ids
     known = {r['id'] for r in rows if not r['locked']}
     if not isinstance(ids, list) or not all(isinstance(item, str) and item in known for item in ids):
         raise ValueError('Liste de logiciels/configurations enregistrée invalide.')
@@ -475,7 +489,7 @@ def prepare_existing_session(session, report, fresh_log=False):
         if missing:
             raise RuntimeError('État de base incohérent : paquets manquants : ' + ', '.join(sorted(missing)))
     if session.done('deploy'):
-        prepare_options_runtime(session.data['settings']['user'])
+        prepare_options_runtime(session.data['settings']['user'], session.data.get('deferred'))
     return disk, root, esp
 
 
@@ -626,7 +640,7 @@ def main():
             if ask('Installer maintenant les compléments AUR ? oui/non', 'oui', r'oui|non') == 'non':
                 return
             try:
-                run_options(user)
+                run_options(user, deferred)
             except subprocess.CalledProcessError:
                 if UI.choose('Compléments en échec', [('Arrêter et conserver la reprise', 'abort'), ('Reporter à arch-options après démarrage', 'later')]) == 'abort':
                     raise RuntimeError('Compléments interrompus ; état de reprise conservé.')
@@ -642,6 +656,8 @@ def main():
         'packages': official, 'deferred': deferred, 'configurations': settings['selected_ids'],
     }, ensure_ascii=False, indent=2) + '\n')
     session.data['finished'] = True
+    session.data['in_progress'] = None
+    session.data.pop('last_error', None)
     session.save()
     UI.header(6, 'Installation terminée')
     UI.progress('Installation terminée')

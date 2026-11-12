@@ -59,12 +59,16 @@ Après installation, se connecter au compte créé sur tty1. Le bureau démarre 
 sélectionné ; `start-desktop` le lance manuellement. `arch-options` reprend les
 compléments AUR avec le compte ordinaire.
 
+`dsearch-bin` et `flea-arch-git` sont exclus à ta demande. Ils ne sont plus
+proposés ; une reprise avec cette version les retire aussi des anciens choix
+et de la liste des compléments installée, même si le déploiement était déjà terminé.
+
 - [Publier et récupérer le dépôt](docs/GITHUB.md)
 - [Audit et limites](docs/AUDIT.md)
 - [Snapshots, progression et reprise après échec](docs/SNAPSHOTS-REPRISE.md)
 - [Vérification de l’installateur](docs/VALIDATION.md)
 
-34 tests automatisés passent. Une installation et un redémarrage BIOS/LTS ont
+40 tests automatisés passent. Une installation et un redémarrage BIOS/LTS ont
 réussi dans QEMU/KVM sur disque jetable. La session graphique complète et le
 parcours UEFI restent à valider ; voir les limites dans VALIDATION.md.
 

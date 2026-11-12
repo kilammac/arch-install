@@ -6,7 +6,10 @@
 - Syntaxe Python et Lua des sources embarquées vérifiée.
 - Lancement normal sur le système actuel : refus attendu avant toute installation.
 - `bash install.sh --check` : manifeste des 656 fichiers embarqués valide.
-- `python -B -m unittest -v test_hardware test_installer test_tui test_session_state test_snapshots test_options_permissions` : 34 tests réussis.
+- `python -B -m unittest -v test_hardware test_installer test_tui test_session_state test_snapshots test_options_permissions test_package_exclusions` : 40 tests réussis.
+- Exclusions `dsearch-bin` et `flea-arch-git` : anciens choix migrés, liste
+  différée et programme installé actualisés lors des reprises ; aucun appel à
+  sudo/yay si ces deux paquets étaient les seuls compléments restants.
 - Régression AMD : aucun paquet distinct `libva-mesa-driver` exigé ; ancien nom
   normalisé vers `mesa` avant résolution.
 - Familles de logiciels et réglage fin testés, présélections Gum vérifiées
