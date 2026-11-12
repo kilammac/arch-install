@@ -64,7 +64,7 @@ compléments AUR avec le compte ordinaire.
 - [Snapshots, progression et reprise après échec](docs/SNAPSHOTS-REPRISE.md)
 - [Vérification de l’installateur](docs/VALIDATION.md)
 
-31 tests automatisés passent. Une installation et un redémarrage BIOS/LTS ont
+34 tests automatisés passent. Une installation et un redémarrage BIOS/LTS ont
 réussi dans QEMU/KVM sur disque jetable. La session graphique complète et le
 parcours UEFI restent à valider ; voir les limites dans VALIDATION.md.
 

@@ -266,6 +266,35 @@ def chroot(*args, capture=False):
                interactive=bool(args and args[0] in {'passwd', 'runuser'}))
 
 
+def options_runtime_permissions(directory):
+    """copytree conserve le 700 de mktemp : ouvrir uniquement les fichiers publics requis."""
+    files = [directory / 'postinstall.py', directory / 'options-differees.json']
+    if directory.is_symlink() or not directory.is_dir() or any(p.is_symlink() or not p.is_file() for p in files):
+        raise RuntimeError('Compléments : fichiers installés absents ou liens inattendus dans /opt/arch-personnel.')
+    directory.chmod(0o755)
+    for path in files:
+        path.chmod(0o644)
+
+
+def prepare_options_runtime(user):
+    directory = TARGET / 'opt/arch-personnel'
+    options_runtime_permissions(directory)
+    chroot('chown', 'root:root', '/opt/arch-personnel', '/opt/arch-personnel/postinstall.py',
+           '/opt/arch-personnel/options-differees.json')
+    # Contrôle réel comme utilisateur, sans exécuter le programme ni construire de paquet.
+    probe = ('from pathlib import Path; import ast,json; '
+             'ast.parse(Path("/opt/arch-personnel/postinstall.py").read_text()); '
+             'json.loads(Path("/opt/arch-personnel/options-differees.json").read_text())')
+    chroot('runuser', '-u', user, '--', 'env', f'HOME=/home/{user}', f'USER={user}',
+           f'LOGNAME={user}', 'python', '-I', '-c', probe)
+
+
+def run_options(user):
+    prepare_options_runtime(user)
+    chroot('runuser', '-u', user, '--', 'env', f'HOME=/home/{user}', f'USER={user}',
+           f'LOGNAME={user}', 'python', '-I', '/opt/arch-personnel/postinstall.py')
+
+
 def execute_step(session, name, label, action):
     if session and session.done(name):
         UI.progress(label + ' · déjà terminé')
@@ -348,6 +377,7 @@ def configure(user, hostname, keymap, timezone, locale, report, root, disk, sele
         shutil.copytree(ROOT, install_dir, ignore=shutil.ignore_patterns('.git', '__pycache__', '*.tar.gz'), dirs_exist_ok=True)
         (install_dir / 'options-differees.json').write_text(json.dumps(deferred, ensure_ascii=False, indent=2) + '\n')
         write('usr/local/bin/arch-options', '#!/bin/sh\nexec python /opt/arch-personnel/postinstall.py "$@"\n', 0o755)
+        prepare_options_runtime(user)
         chroot('chown', '-R', f'{user}:{user}', f'/home/{user}')
     execute_step(session, 'deploy', 'Déployer ta configuration et ton bureau', desktop)
     if snapshot_mode != 'none':
@@ -444,6 +474,8 @@ def prepare_existing_session(session, report, fresh_log=False):
         missing = set(session.data.get('packages', ['base', 'linux', 'linux-lts'])) - installed
         if missing:
             raise RuntimeError('État de base incohérent : paquets manquants : ' + ', '.join(sorted(missing)))
+    if session.done('deploy'):
+        prepare_options_runtime(session.data['settings']['user'])
     return disk, root, esp
 
 
@@ -594,8 +626,7 @@ def main():
             if ask('Installer maintenant les compléments AUR ? oui/non', 'oui', r'oui|non') == 'non':
                 return
             try:
-                chroot('runuser', '-u', user, '--', 'env', f'HOME=/home/{user}',
-                       'python', '/opt/arch-personnel/postinstall.py')
+                run_options(user)
             except subprocess.CalledProcessError:
                 if UI.choose('Compléments en échec', [('Arrêter et conserver la reprise', 'abort'), ('Reporter à arch-options après démarrage', 'later')]) == 'abort':
                     raise RuntimeError('Compléments interrompus ; état de reprise conservé.')

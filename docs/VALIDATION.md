@@ -6,7 +6,7 @@
 - Syntaxe Python et Lua des sources embarquées vérifiée.
 - Lancement normal sur le système actuel : refus attendu avant toute installation.
 - `bash install.sh --check` : manifeste des 656 fichiers embarqués valide.
-- `python -B -m unittest -v test_hardware test_installer test_tui test_session_state test_snapshots` : 31 tests réussis.
+- `python -B -m unittest -v test_hardware test_installer test_tui test_session_state test_snapshots test_options_permissions` : 34 tests réussis.
 - Régression AMD : aucun paquet distinct `libva-mesa-driver` exigé ; ancien nom
   normalisé vers `mesa` avant résolution.
 - Familles de logiciels et réglage fin testés, présélections Gum vérifiées
@@ -90,3 +90,16 @@ refusée, et la réexécution d’un compte/déploiement partiellement créé.
 Cette recette vérifie la reprise depuis un état de nouvelle version. Elle ne
 reconstitue pas les états absents des versions antérieures. La compatibilité
 UEFI et les restaurations de snapshots avec ESP séparée restent à éprouver.
+
+## Accès aux compléments depuis un téléchargement autonome
+
+Régression reproduite : `copytree` préserve le mode 700 du dossier créé par
+`mktemp -d`, ce qui interdit au compte ordinaire de lire `/opt/arch-personnel/postinstall.py`.
+Le correctif fixe le dossier public requis à 755 et ses deux fichiers nécessaires
+à 644, sans ouvrir récursivement d’autres fichiers. Le propriétaire reste root.
+
+Un contrôle de lecture/syntaxe est exécuté avec `runuser` et le Python installé,
+avant la construction AUR. Les tests couvrent la copie d’une source en 700, les
+permissions réparées, les autres fichiers laissés privés, les fichiers manquants
+et l’ordre contrôle/exécution sur une installation déjà déployée. La réparation
+est aussi appelée lors d’une reprise dont l’étape `deploy` est déjà validée.

@@ -38,7 +38,7 @@ logicielles et les fonctions de ton bureau.
 ```bash
 python -B audit_publication.py
 bash install.sh --check
-python -B -m unittest -v test_hardware test_installer test_tui test_session_state test_snapshots
+python -B -m unittest -v test_hardware test_installer test_tui test_session_state test_snapshots test_options_permissions
 ```
 
 Le scanner local est un contrôle par motifs, pas une preuve d’absence de tout

@@ -102,3 +102,21 @@ pas être ajoutés à GitHub. Le `.gitignore` les exclut.
 Références : [Snapper](https://man.archlinux.org/man/snapper.8.en),
 [snap-pac](https://man.archlinux.org/man/extra/snap-pac/snap-pac.8.en),
 [configuration Snapper](https://man.archlinux.org/man/snapper-configs.5).
+
+## Erreur « Permission denied » sur postinstall.py
+
+La version corrigée répare aussi une cible déjà déployée : choisir « Arrêter et
+conserver la reprise », récupérer la version actuelle de l’installateur, puis
+choisir la reprise. Le socle et les configurations terminés restent conservés.
+
+Pour dépanner immédiatement depuis la console root du live, après avoir quitté
+le menu en conservant la reprise, les fichiers de la cible sont accessibles ici :
+
+```bash
+chmod 755 /mnt/arch-personnel/opt/arch-personnel
+chmod 644 /mnt/arch-personnel/opt/arch-personnel/postinstall.py
+chmod 644 /mnt/arch-personnel/opt/arch-personnel/options-differees.json
+```
+
+Relancer ensuite l’installateur et choisir « Reprendre sans reformater ».
+Ne pas appliquer un `chmod -R` général à `/opt` ou au système installé.
